@@ -1,4 +1,4 @@
-name: EMRA-For-HyperOS
+name: TEST
 
 on:
   workflow_dispatch:
