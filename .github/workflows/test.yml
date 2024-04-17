@@ -30,8 +30,8 @@ jobs:
     
     - name: Install dependence
       run: |
-        sudo apt-get install -y android-sdk-build-tools
-        pip install apkfile
+        sudo apt-get install -y android-sdk-build-tools libtsk-dev
+        pip install apkfile pytsk3
         wget -O erofs-utils.zip https://github.com/sekaiacg/erofs-utils/releases/download/v1.7.1-231221/erofs-utils-v1.7.1-g64fa6832-Linux_x86_64-2312211134.zip
         unzip erofs-utils.zip
         rm erofs-utils.zip
