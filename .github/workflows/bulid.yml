@@ -63,10 +63,21 @@ jobs:
         rm *.img
     
 
-    - name: Remove special apk
+    - name: Remove exclude apk
       run: |
         python main.py -a
 
+    - name: Upload Special_apks
+      uses: actions/upload-artifact@v4
+      with:
+        name: Special_apks
+        path: |
+          output_apk/MIUIScreenRecorder.apk
+          output_apk/MIUIScreenRecorderLite.apk
+          output_apk/MIUISecurityManager.apk
+          output_apk/MiuiHome.apk
+          output_apk/AiAsstVision.apk
+          
     - name: Get version
       run: |
         python main.py -n
@@ -87,10 +98,10 @@ jobs:
           app_version.json
           app_code.json
     
-    - name: Upload update_files.zip
+    - name: Upload update_apks
       uses: actions/upload-artifact@v4
       with:
-        name: update_files
+        name: update_apks
         path: |
           update_apk
           update_name_apk
