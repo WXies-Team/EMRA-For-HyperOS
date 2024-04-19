@@ -9,6 +9,12 @@ on:
       link:
         description: 'ROM 链接'
         required: true
+      devicename:
+        description: '设备名'
+        required: false
+      osversion:
+        description: '系统版本'
+        required: false
 
 jobs:
   build:
@@ -121,5 +127,5 @@ jobs:
             echo "Invalid device specified."
             exit 1
           fi
-        git commit -m "Update app_version.json & app_code.json"
+        git commit -m "Update Version ${{ github.event.inputs.devicename }} ${{ github.event.inputs.osversion }}"
         git push origin main
