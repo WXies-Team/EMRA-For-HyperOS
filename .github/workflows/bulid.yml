@@ -1,4 +1,4 @@
-name: EMRA-For-HyperOS
+name: EMRA-For-HyperOS ${{ github.event.inputs.devicename }} ${{ github.event.inputs.osversion }}
 
 on:
   workflow_dispatch:
