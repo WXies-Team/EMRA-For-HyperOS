@@ -1,4 +1,4 @@
-name: EMRA-For-HyperOS
+name: Analyze & Push
 
 on:
   workflow_dispatch:
@@ -17,7 +17,7 @@ on:
         required: false
 
 jobs:
-  build:
+  Analyze:
     runs-on: ubuntu-latest
 
     steps:
