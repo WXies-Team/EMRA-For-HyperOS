@@ -205,13 +205,13 @@ def extract_files():
                     is_pad = {"nabu", "elish", "enuma", "dagu", "pipa", "liuqin", "yudi", "yunluo", "xun", "sheng"}
 
                     if device_name in is_fold:
-                        print("\n检测到包设备为 Fold，请输入-t 0/1(备份/不备份) f 参数切换字库")
+                        print("\n检测到包设备为 Fold，请输入-t 0/1(不备份/备份) f 参数切换字库")
                         break
                     elif device_name in is_pad:
-                        print("\n检测到包设备为 Pad，请输入-t 0/1(备份/不备份) p 参数切换字库")
+                        print("\n检测到包设备为 Pad，请输入-t 0/1(不备份/备份) p 参数切换字库")
                         break
                     else:
-                        print("\n检测到包设备为 Phone，请输入-t 0/1(备份/不备份) ph 参数切换字库")
+                        print("\n检测到包设备为 Phone，请输入-t 0/1(不备份/备份) ph 参数切换字库")
                         break                    
     except FileNotFoundError:
         print("无法获取设备名")
