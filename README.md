@@ -18,26 +18,29 @@
 
 ## 如何使用
 
-1. 确保已安装 Python 3.x, aria2c, 7z 并配置好环境变量后(具体方法可百度Windows/Linux/macOS如何安装xxx并配置环境变量)安装以下依赖库和 Android 的 `aapt`：
-    ```
-    pip install apkfile
-    ```
+1. 确保已安装 Python 3.x, aria2c, 7z 并配置好环境变量后(具体方法可百度 Windows/Linux/macOS 如何安装 xxx 并配置环境变量)安装以下依赖库和 Android 的 `aapt`：
 
-    注意：Windows 用户还需安装 cygwin 并在安装后将 `安装目录/bin` 添加到环境变量中
+   ```
+   pip install apkfile
+   ```
+
+   注意：Windows 用户还需安装 cygwin 并在安装后将 `安装目录/bin` 添加到环境变量中
 
 2. 克隆此仓库或下载脚本文件：
-    ```
-    https://github.com/WXies-Team/EMRA-For-HyperOS.git
-    ```
+
+   ```
+   https://github.com/WXies-Team/EMRA-For-HyperOS.git
+   ```
 
 3. 从以下仓库中下载并解压得到 `extract.erofs` 和 `payload-dumper-go` 文件，并将文件移动到脚本目录下
-   - [extract.erofs（Windows选cygwin）](https://github.com/sekaiacg/erofs-utils/releases)
+
+   - [extract.erofs（Windows 选 cygwin）](https://github.com/sekaiacg/erofs-utils/releases)
    - [payload-dumper-go](https://github.com/ssut/payload-dumper-go/releases)
 
 4. 运行脚本：
-    ```
-    python main.py [-h] [-d URL] [-p] [-i] [-f] [-t] [-a] [-n] [-u] [-m] [-c]
-    ```
+   ```
+   python main.py [-h] [-d URL] [-p] [-i] [-f] [-t] [-a] [-n] [-u] [-m] [-c]
+   ```
 
 按照提示选择相应的操作。
 
@@ -69,12 +72,12 @@
 
 ## 相关项目
 
- [EMRA For  Flyme](https://github.com/WXies-Team/EMRA-For-Flyme) 
+[EMRA For Flyme](https://github.com/WXies-Team/EMRA-For-Flyme)
 
- [EMRA For  ColorOS](https://github.com/WXies-Team/EMRA-For-ColorOS) 
+[EMRA For ColorOS](https://github.com/WXies-Team/EMRA-For-ColorOS)
 
- [EMRA For  OriginOS](https://github.com/WXies-Team/EMRA-For-OriginOS) 
+[EMRA For OriginOS](https://github.com/WXies-Team/EMRA-For-OriginOS)
 
- [EMRA For  HyperOS](https://github.com/WXies-Team/EMRA-For-HyperOS) 
+[EMRA For HyperOS](https://github.com/WXies-Team/EMRA-For-HyperOS)
 
- [EMRA For  RedMagicOS](https://github.com/WXies-Team/EMRA-For-RedMagicOS) 
+[EMRA For RedMagicOS](https://github.com/WXies-Team/EMRA-For-RedMagicOS)
