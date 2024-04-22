@@ -201,8 +201,8 @@ def extract_files():
                     print(f"设备名: {device_name}")
 
                     # 建立一个集合，用来判断是否为 Fold 或者 Pad
-                    is_fold = {"cetus", "zizhan", "babylon"}
-                    is_pad = {"nabu", "elish", "enuma", "dagu", "pipa", "liuqin", "yudi", "yunluo", "xun", "sheng"}
+                    is_fold = {"cetus", "zizhan", "babylon", "goku"}
+                    is_pad = {"nabu", "elish", "enuma", "dagu", "pipa", "liuqin", "yudi", "yunluo", "xun", "sheng", "dizi", "ruan"}
 
                     if device_name in is_fold:
                         print("\n检测到包设备为 Fold，请输入-t 0/1(不备份/备份) f 参数切换字库")
