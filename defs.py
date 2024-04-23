@@ -5,61 +5,60 @@ import fnmatch  # 导入fnmatch模块，用于文件名匹配
 import json  # 导入json模块，用于读写JSON格式的数据
 from apkfile import ApkFile  # 导入apkfile.py中定义的ApkFile类
 
-
 def move_json(backup, type_name):
     def move_files(type_n):
-        if type_n == "ph":
-            src_1 = os.path.join("./phone", "app_version.json")
-            dst_1 = os.path.join(".", "app_version.json")
-            src_2 = os.path.join("./phone", "app_code.json")
-            dst_2 = os.path.join(".", "app_code.json")
-            # 将文件复制到根目录下
-            shutil.copy2(src_1, dst_1)
-            shutil.copy2(src_2, dst_2)
-            try:
-                with open(JSON_V, 'w') as file:
-                    new_content = "Phone"
-                    file.write(new_content)
-                    print("字典库已变更为 Phone")
-            except Exception as e:
-                print(f"异常: {e}")
-        elif type_n == "f":
-            src_1 = os.path.join("./fold", "app_version.json")
-            dst_1 = os.path.join(".", "app_version.json")
-            src_2 = os.path.join("./fold", "app_code.json")
-            dst_2 = os.path.join(".", "app_code.json")
-            # 将文件复制到根目录下
-            shutil.copy2(src_1, dst_1)
-            shutil.copy2(src_2, dst_2)
-            try:
-                with open(JSON_V, 'w') as file:
-                    new_content = "Fold"
-                    file.write(new_content)
-                    print("字典库已变更为 Fold")
-            except Exception as e:
-                print(f"异常: {e}")
-        elif type_n == "p":
-            src_1 = os.path.join("./pad", "app_version.json")
-            dst_1 = os.path.join(".", "app_version.json")
-            src_2 = os.path.join("./pad", "app_code.json")
-            dst_2 = os.path.join(".", "app_code.json")
-            # 将文件复制到根目录下
-            shutil.copy2(src_1, dst_1)
-            shutil.copy2(src_2, dst_2)
-            try:
-                with open(JSON_V, 'w') as file:
-                    new_content = "Pad"
-                    file.write(new_content)
-                    print("字典库已变更为 Pad")
-            except Exception as e:
-                print(f"异常: {e}")
+            if type_n == "ph":
+                src_1 = os.path.join("./phone", "app_version.json")
+                dst_1 = os.path.join(".", "app_version.json")
+                src_2 = os.path.join("./phone", "app_code.json")
+                dst_2 = os.path.join(".", "app_code.json")
+                # 将文件复制到根目录下
+                shutil.copy2(src_1, dst_1)
+                shutil.copy2(src_2, dst_2)
+                try:
+                    with open(JSON_V, 'w') as file:
+                        new_content = "Phone"
+                        file.write(new_content)
+                        print("字典库已变更为 Phone")
+                except Exception as e:
+                    print(f"异常: {e}")
+            elif type_n == "f":
+                src_1 = os.path.join("./fold", "app_version.json")
+                dst_1 = os.path.join(".", "app_version.json")
+                src_2 = os.path.join("./fold", "app_code.json")
+                dst_2 = os.path.join(".", "app_code.json")
+                # 将文件复制到根目录下
+                shutil.copy2(src_1, dst_1)
+                shutil.copy2(src_2, dst_2)
+                try:
+                    with open(JSON_V, 'w') as file:
+                        new_content = "Fold"
+                        file.write(new_content)
+                        print("字典库已变更为 Fold")
+                except Exception as e:
+                    print(f"异常: {e}")
+            elif type_n == "p":
+                src_1 = os.path.join("./pad", "app_version.json")
+                dst_1 = os.path.join(".", "app_version.json")
+                src_2 = os.path.join("./pad", "app_code.json")
+                dst_2 = os.path.join(".", "app_code.json")
+                # 将文件复制到根目录下
+                shutil.copy2(src_1, dst_1)
+                shutil.copy2(src_2, dst_2)
+                try:
+                    with open(JSON_V, 'w') as file:
+                        new_content = "Pad"
+                        file.write(new_content)
+                        print("字典库已变更为 Pad")
+                except Exception as e:
+                    print(f"异常: {e}")
 
     # 获取字典库当前列表
     try:
         with open(JSON_V, 'r') as file:
             line = file.readline()
             print("当前字典列表为:", line)
-
+        
         # 同步字典库
         if int(backup) == 1:
             print(f"正在同步到 {line} 字典库目录")
@@ -101,7 +100,6 @@ def move_json(backup, type_name):
     except Exception as e:
         print(f"异常: {e}")
 
-
 def init_folder():
     """检查并创建所需的文件夹"""
     if not os.path.exists("output_apk"):
@@ -121,7 +119,7 @@ def init_folder():
 
     if not os.path.exists(update_apk_name_folder):
         os.makedirs(update_apk_name_folder)
-
+    
     if not os.path.exists(APK_CODE) or not os.path.exists(APK_VERSION):
         print("检测到根目录下没有字典库，正在初始化字典库为 Phone")
         move_json(0, "ph")
@@ -155,7 +153,7 @@ def init_json():
 
 def download_rom(url):
     """从给定的URL下载ROM"""
-    subprocess.run(["aria2c", "-x16", "-s16", url])
+    subprocess.run(["aria2c", "-x16", "-s16",url])
 
 
 def extract_payload_bin(zip_files):
@@ -171,21 +169,18 @@ def extract_img():
     # 使用 subprocess 模块运行 shell 命令，执行 payload-dumper-go 的命令，从 payload.bin 文件中提取指定镜像文件
     # -c 参数指定最大并发数为 8，-o 指定提取后的文件输出到当前目录下
     # -p 参数指定提取指定镜像，"payload.bin" 为输入文件
-    subprocess.run(["./payload-dumper-go", "-c", "8", "-o", "./",
-                   "-p", "system,system_ext,product", "payload.bin"])
+    subprocess.run(["./payload-dumper-go", "-c", "8", "-o","./", "-p", "system,system_ext,product", "payload.bin"])
 
 
 def extract_files():
     try:
         # 使用 subprocess 模块运行 shell 命令，提取镜像文件中的文件
-        output = subprocess.check_output(
-            ["file", "product.img"]).decode("utf-8")
+        output = subprocess.check_output(["file", "product.img"]).decode("utf-8")
         print("当前镜像打包格式:", output)
         if "EROFS filesystem" in output:
             # 如果输出内容包含 EROFS filesystem 则使用 extract.erofs 解压
             # -i 参数指定输入的镜像文件为，-x 参数指定提取文件，-T 参数指定使用线程提取文件
-            subprocess.run(
-                ["./extract.erofs", "-i", "product.img", "-x", "-T16"])
+            subprocess.run(["./extract.erofs", "-i", "product.img", "-x", "-T16"])
         elif "data" in output:
             # 如果输出内容包含 data 则使用7zip解压
             # x 参数指定输入的镜像文件为，-o 提取指定提取文件到目录下
@@ -207,8 +202,7 @@ def extract_files():
 
                     # 建立一个集合，用来判断是否为 Fold 或者 Pad
                     is_fold = {"cetus", "zizhan", "babylon", "goku"}
-                    is_pad = {"nabu", "elish", "enuma", "dagu", "pipa",
-                              "liuqin", "yudi", "yunluo", "xun", "sheng", "dizi", "ruan"}
+                    is_pad = {"nabu", "elish", "enuma", "dagu", "pipa", "liuqin", "yudi", "yunluo", "xun", "sheng", "dizi", "ruan"}
 
                     if device_name in is_fold:
                         print("\n检测到包设备为 Fold，请输入-t 0/1(不备份/备份) f 参数切换字库")
@@ -218,10 +212,9 @@ def extract_files():
                         break
                     else:
                         print("\n检测到包设备为 Phone，请输入-t 0/1(不备份/备份) ph 参数切换字库")
-                        break
+                        break                    
     except FileNotFoundError:
         print("无法获取设备名")
-
 
 def remove_some_apk(exclude_apk):
     # 遍历当前目录及其子目录
@@ -293,40 +286,36 @@ def update_apk_version(apk_version, apk_code, apk_code_name):
                         if apk_version[x] == y:
                             # 更新本地词典中的版本号
                             apk_version[x] = y
-                            apk_code[x] = int(z)  # 以 int 格式写入
-                            apk_code_name[x] = int(z)  # 以 int 格式写入
+                            apk_code[x] = int(z) # 以 int 格式写入
+                            apk_code_name[x] = int(z) # 以 int 格式写入
                             # 复制新版本的 APK 文件到 update_apk 文件夹
                             src = os.path.join(output_dir, apk_file)
                             dst = os.path.join(update_apk_folder, apk_file)
                             shutil.copy2(src, dst)
-                            print(f'已将 {apk_file} 复制到 {
-                                  update_apk_folder} 文件夹\n')
+                            print(f'已将 {apk_file} 复制到 {update_apk_folder} 文件夹\n')
                         else:
                             # 更新本地词典中的版本号
                             apk_version[x] = y
-                            apk_code[x] = int(z)  # 以 int 格式写入
+                            apk_code[x] = int(z) # 以 int 格式写入
                             # 复制新版本的 APK 文件到 update_apk 文件夹
                             src = os.path.join(output_dir, apk_file)
                             dst = os.path.join(update_apk_folder, apk_file)
                             shutil.copy2(src, dst)
-                            print(f'已将 {apk_file} 复制到 {
-                                  update_apk_folder} 文件夹\n')
+                            print(f'已将 {apk_file} 复制到 {update_apk_folder} 文件夹\n')
                     elif apk_code[x] == int(z):
                         if apk_version[x] != y:
                             print(f'疑似更新 {x}：{apk_version[x]} -> {y}')
                             # 复制新版本的 APK 文件到 update_name_apk 文件夹
                             src = os.path.join(output_dir, apk_file)
-                            dst = os.path.join(
-                                update_apk_name_folder, apk_file)
+                            dst = os.path.join(update_apk_name_folder, apk_file)
                             shutil.copy2(src, dst)
-                            print(f'已将 {apk_file} 复制到 {
-                                  update_apk_name_folder} 文件夹\n')
+                            print(f'已将 {apk_file} 复制到 {update_apk_name_folder} 文件夹\n')
                 # 如果包名不在本地词典中
                 else:
                     print(f'添加新应用 {x}:{y}({z})\n')
                     # 在本地词典中添加新的包名和版本号
                     apk_version[x] = y
-                    apk_code[x] = int(z)  # 以 int 格式写入
+                    apk_code[x] = int(z) # 以 int 格式写入
             except Exception as e:
                 print(f"异常，报错信息: {e}")
                 return
@@ -384,7 +373,7 @@ def update_apk_name():
                         new_apk_file_1 = f'{new_x}_{y}({z}).apk'
                         # 修改为新定义的文件名
                         os.rename(os.path.join(folder, apk_file),
-                                  os.path.join(folder, new_apk_file_1))
+                                 os.path.join(folder, new_apk_file_1))
                         print(f'修改 {apk_file} -> {new_apk_file_1}')
                     else:
                         # 定义修改的文件名
@@ -392,7 +381,7 @@ def update_apk_name():
                         new_apk_file_2 = f'{new_x}_{y}({z}).apk'
                         # 修改为新定义的文件名
                         os.rename(os.path.join(folder, apk_file),
-                                  os.path.join(folder, new_apk_file_2))
+                                 os.path.join(folder, new_apk_file_2))
                         print(f'修改 {apk_file} -> {new_apk_file_2}')
 
     # 重命名 output_dir 中的 APK 文件
@@ -408,8 +397,7 @@ def update_apk_name():
 def delete_files_and_folders():
     """删除指定的文件和文件夹"""
     files_to_delete = ["payload.bin", "product.img", "app_code_name.json"]
-    folders_to_delete = ["output_apk",
-                         "update_apk", "update_name_apk", "product"]
+    folders_to_delete = ["output_apk", "update_apk", "update_name_apk", "product"]
 
     for file in files_to_delete:
         if os.path.exists(file):
@@ -435,7 +423,6 @@ def delete_files_and_folders():
         else:
             print(f"{folder} 不存在")
 
-
 def git_push():
     device_name = input("机型：")
     os_version = input("版本号：")
@@ -446,16 +433,16 @@ def git_push():
             line = file.readline()
             if line == "Phone":
                 move_json(1, "ph")
-                subprocess.run(["git", "add", "phone/"])
+                subprocess.run(["git", "add", "phone/"]) 
             elif line == "Pad":
                 move_json(1, "p")
-                subprocess.run(["git", "add", "pad/"])
+                subprocess.run(["git", "add", "pad/"]) 
             elif line == "Fold":
                 move_json(1, "f")
-                subprocess.run(["git", "add", "fold/"])
+                subprocess.run(["git", "add", "fold/"]) 
             else:
                 print("未检测到字库，无法上传")
     except Exception as e:
         print(f"异常，报错信息: {e}")
-    subprocess.run(["git", "commit", "-m", commit])
-    subprocess.run(["git", "push"])
+    subprocess.run(["git", "commit","-m",commit]) 
+    subprocess.run(["git", "push"]) 
