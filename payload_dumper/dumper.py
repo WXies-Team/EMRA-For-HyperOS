@@ -266,6 +266,7 @@ def main():
     if payload_file.startswith('http://') or payload_file.startswith("https://"):
         try:
             payload_file = http_file.HttpFile(payload_file)
+            print(args.payloadfile)
         except:
             print('unsupported url!')
     else:
