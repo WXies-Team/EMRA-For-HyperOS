@@ -1,4 +1,4 @@
-name: Analyze & Push
+name: Analyze & Push_DEV
 
 on:
   workflow_dispatch:
