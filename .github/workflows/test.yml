@@ -19,3 +19,10 @@ jobs:
       run: |
         pip install -r requirements.txt
         python ./payload_dumper/dumper.py --partitions boot ${{ github.event.inputs.link }}
+
+    - name: Upload Special_apks
+      uses: actions/upload-artifact@v4
+      with:
+        name: Test
+        path: |
+          output/
