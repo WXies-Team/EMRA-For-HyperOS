@@ -44,7 +44,7 @@ jobs:
 
     - name: Download ROM
       run: |
-        python ./payload_dumper/dumper.py --partitions product --output / ${{ github.event.inputs.link }}
+        python ./payload_dumper/dumper.py --partitions product --out / ${{ github.event.inputs.link }}
 
     - name: Switch device type
       run: |
