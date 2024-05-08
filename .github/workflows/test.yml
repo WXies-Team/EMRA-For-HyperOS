@@ -1,0 +1,21 @@
+name: test
+
+on:
+  workflow_dispatch:
+    inputs:
+      link:
+        description: 'ROM 链接'
+        required: true
+
+jobs:
+  Analyze:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Download ROM
+      run: |
+        pip install -r requirements.txt
+        python ./payload_dumper/dumper.py --partitions boot ${{ github.event.inputs.link }}
