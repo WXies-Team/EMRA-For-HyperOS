@@ -1,28 +1,118 @@
-name: test
+name: Analyze & Push
 
 on:
   workflow_dispatch:
     inputs:
+      device:
+        description: '设备类型 p/ph/f'
+        required: true
       link:
         description: 'ROM 链接'
         required: true
+      devicename:
+        description: '设备名'
+        required: false
+      osversion:
+        description: '系统版本'
+        required: false
 
 jobs:
   Analyze:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Maximizing storage
+      uses: easimon/maximize-build-space@master
+      with:
+        swap-size-mb: 8192
+        root-reserve-mb: 4096
+        temp-reserve-mb: 4096
+        remove-dotnet: 'true'
+        remove-android: 'true'
+        remove-haskell: 'true'
+
     - name: Checkout code
       uses: actions/checkout@v4
+    
+    - name: Install dependence
+      run: |
+        sudo apt-get install -y android-sdk-build-tools
+        pip install -t requirements.txt
+        wget -O erofs-utils.zip https://github.com/sekaiacg/erofs-utils/releases/download/v1.7.1-231221/erofs-utils-v1.7.1-g64fa6832-Linux_x86_64-2312211134.zip
+        unzip erofs-utils.zip
+        rm erofs-utils.zip
 
     - name: Download ROM
       run: |
-        pip install -r requirements.txt
-        python ./payload_dumper/dumper.py --partitions boot ${{ github.event.inputs.link }}
+        python ./payload_dumper/dumper.py --partitions product --output / ${{ github.event.inputs.link }}
+
+    - name: Switch device type
+      run: |
+        python main.py -t 0 ${{ github.event.inputs.device }}
+    
+    - name: Unzip files
+      run: |
+        ./extract.erofs -i product.img -x -T8
+        rm *.img
+    
+
+    - name: Remove exclude apk
+      run: |
+        python main.py -a
 
     - name: Upload Special_apks
       uses: actions/upload-artifact@v4
       with:
-        name: Test
+        name: Special_apks
         path: |
-          output/
+          output_apk/MIUIScreenRecorder.apk
+          output_apk/MIUIScreenRecorderLite.apk
+          output_apk/MIUISecurityCenter.apk
+          output_apk/MiuiHome.apk
+          output_apk/AiAsstVision.apk
+          
+    - name: Get version
+      run: |
+        python main.py -n
+
+    - name: Update database
+      run: |
+        python main.py -u
+
+    - name: Rename
+      run: |
+        python main.py -m
+
+    - name: Upload app_version.json and app_code.json
+      uses: actions/upload-artifact@v4
+      with:
+        name: update_json
+        path: |
+          app_version.json
+          app_code.json
+    
+    - name: Upload update_apks
+      uses: actions/upload-artifact@v4
+      with:
+        name: update_apks
+        path: |
+          update_apk
+          update_name_apk
+
+    - name: Update
+      run: |
+        python main.py -t 1 ph
+            git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+            git config --global user.name "${GITHUB_ACTOR}"
+        if [ "${{ github.event.inputs.device }}" = "ph" ]; then
+            git add phone/
+          elif [ "${{ github.event.inputs.device }}" = "p" ]; then
+            git add pad/
+          elif [ "${{ github.event.inputs.device }}" = "f" ]; then
+            git add fold/
+          else
+            echo "Invalid device specified."
+            exit 1
+          fi
+        git commit -m "Update Version ${{ github.event.inputs.devicename }} ${{ github.event.inputs.osversion }}"
+        git push origin main
