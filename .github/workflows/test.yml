@@ -30,3 +30,7 @@ jobs:
         latest: true
         extract: true
         fileName: 'payload-dumper-go_*_linux_amd64.tar.gz'
+
+    - name: Install dependence
+      run: |
+        ls
