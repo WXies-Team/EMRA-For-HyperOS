@@ -85,8 +85,9 @@ jobs:
     
     - name: Unzip file
       run: |
-        sudo ./extract.erofs -i product.img,system.img -x -T8
-        sudo rm *.img
+        chmod 777 product.img
+        ./extract.erofs -i product.img -x -T8
+        rm *.img
     
 
     - name: Remove exclude apk
