@@ -169,7 +169,7 @@ def extract_img():
     # 使用 subprocess 模块运行 shell 命令，执行 payload-dumper-go 的命令，从 payload.bin 文件中提取指定镜像文件
     # -c 参数指定最大并发数为 8，-o 指定提取后的文件输出到当前目录下
     # -p 参数指定提取指定镜像，"payload.bin" 为输入文件
-    subprocess.run(["./payload-dumper-go", "-c", "8", "-o","./", "-p", "system,system_ext,product", "payload.bin"])
+    subprocess.run(["./payload-dumper-go", "-c", "8", "-o","./", "-p", "product", "payload.bin"])
 
 
 def extract_files():
