@@ -21,7 +21,7 @@
 1. 确保已安装 Python 3.x, aria2c, 7z 并配置好环境变量后(具体方法可百度 Windows/Linux/macOS 如何安装 xxx 并配置环境变量)安装以下依赖库和 Android 的 `aapt`：
 
    ```
-   pip install apkfile
+   pip install -r requirements.txt
    ```
 
    注意：Windows 用户还需安装 cygwin 并在安装后将 `安装目录/bin` 添加到环境变量中
