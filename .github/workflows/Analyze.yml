@@ -3,9 +3,14 @@ name: Analyze & Push
 on:
   workflow_dispatch:
     inputs:
-      device:
-        description: '设备类型 p/ph/f'
+      arch:
+        description: "设备类型"
         required: true
+        type: choice
+        options:
+        - Phone
+        - Pad
+        - Fold
       link:
         description: 'ROM 链接'
         required: true
@@ -117,11 +122,11 @@ jobs:
         python main.py -t 1 ph
             git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
             git config --global user.name "${GITHUB_ACTOR}"
-        if [ "${{ github.event.inputs.device }}" = "ph" ]; then
+        if [ "${{ github.event.inputs.device }}" = "Phone" ]; then
             git add phone/
-          elif [ "${{ github.event.inputs.device }}" = "p" ]; then
+          elif [ "${{ github.event.inputs.device }}" = "Pad" ]; then
             git add pad/
-          elif [ "${{ github.event.inputs.device }}" = "f" ]; then
+          elif [ "${{ github.event.inputs.device }}" = "Fold" ]; then
             git add fold/
           else
             echo "Invalid device specified."
