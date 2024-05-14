@@ -3,7 +3,7 @@ name: Analyze & Push
 on:
   workflow_dispatch:
     inputs:
-      arch:
+      device:
         description: "设备类型"
         required: true
         type: choice
