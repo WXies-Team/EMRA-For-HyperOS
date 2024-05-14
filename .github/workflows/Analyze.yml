@@ -52,17 +52,9 @@ jobs:
         extract: true
         fileName: 'erofs-utils-*-Linux_x86_64-*.zip'
 
-    - name: Download payload-dumper-go
-      uses: robinraju/release-downloader@v1.10
-      with:
-        repository: "ssut/payload-dumper-go"
-        latest: true
-        extract: true
-        fileName: 'payload-dumper-go_*_linux_amd64.tar.gz'
-
     - name: Remove file
       run: |
-       rm *.tar.gz *.zip
+       rm *.zip
 
     - name: Download ROM
       run: |
@@ -93,8 +85,8 @@ jobs:
     
     - name: Unzip file
       run: |
-        ./extract.erofs -i product.img -x -T8
-        rm *.img
+        sudo ./extract.erofs -i product.img,system.img -x -T8
+        sudo rm *.img
     
 
     - name: Remove exclude apk
