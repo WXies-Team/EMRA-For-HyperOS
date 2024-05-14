@@ -169,7 +169,7 @@ def extract_img():
     # 使用 subprocess 模块运行 shell 命令，执行 payload-dumper-go 的命令，从 payload.bin 文件中提取指定镜像文件
     # -c 参数指定最大并发数为 8，-o 指定提取后的文件输出到当前目录下
     # -p 参数指定提取指定镜像，"payload.bin" 为输入文件
-    subprocess.run(["python", " payload_dumper.py", "payload.bin", "--out","./", "--images", "product,system"])
+    subprocess.run(["./payload-dumper-go", "-c", "8", "-o","./", "-p", "system,system_ext,product", "payload.bin"])
 
 
 def extract_files():
@@ -184,7 +184,7 @@ def extract_files():
         elif "data" in output:
             # 如果输出内容包含 data 则使用7zip解压
             # x 参数指定输入的镜像文件为，-o 提取指定提取文件到目录下
-            subprocess.run(["7z", "x", "product.img,system.img", r"-o.\product"])
+            subprocess.run(["7z", "x", "product.img", r"-o.\product"])
         else:
             print("未知的文件系统类型")
     except subprocess.CalledProcessError as e:

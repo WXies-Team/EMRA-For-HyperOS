@@ -32,9 +32,10 @@
    https://github.com/WXies-Team/EMRA-For-HyperOS.git
    ```
 
-3. 从以下仓库中下载并解压得到 `extract.erofs` 文件，并将文件移动到脚本目录下
+3. 从以下仓库中下载并解压得到 `extract.erofs` 和 `payload-dumper-go` 文件，并将文件移动到脚本目录下
 
    - [extract.erofs（Windows 选 cygwin）](https://github.com/sekaiacg/erofs-utils/releases)
+   - [payload-dumper-go](https://github.com/ssut/payload-dumper-go/releases)
 
 4. 运行脚本：
    ```
