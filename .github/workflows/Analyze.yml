@@ -8,24 +8,24 @@ on:
         required: true
         type: choice
         options:
-        - Phone
-        - Pad
-        - Fold
+        - "Phone"
+        - "Pad"
+        - "Fold"
       link:
-        description: 'ROM 链接'
+        description: "ROM 链接"
         required: true
       push:
-        description: '是否上传数据库'
+        description: "是否上传数据库"
         required: true
         type: choice
         options:
-        - '是'
-        - '否'
+        - "是"
+        - "否"
       devicename:
-        description: '设备名'
+        description: "设备名"
         required: false
       osversion:
-        description: '系统版本'
+        description: "系统版本"
         required: false
 
 jobs:
@@ -57,7 +57,7 @@ jobs:
         repository: "ssut/payload-dumper-go"
         latest: true
         extract: true
-        fileName: 'payload-dumper-go_*_linux_amd64.tar.gz'
+        fileName: "payload-dumper-go_*_linux_amd64.tar.gz"
 
     - name: Download extract.erofs
       uses: robinraju/release-downloader@v1.10
@@ -65,7 +65,7 @@ jobs:
         repository: "sekaiacg/erofs-utils"
         latest: true
         extract: true
-        fileName: 'erofs-utils-*-Linux_x86_64-*.zip'
+        fileName: "erofs-utils-*-Linux_x86_64-*.zip"
 
     - name: Set environment
       run: |
@@ -73,7 +73,7 @@ jobs:
 
     - name: Download ROM
       run: |
-        python main.py -d ${{ github.event.inputs.link }}
+        python main.py -d "${{ github.event.inputs.link }}"
 
     - name: Switch device type
       run: |
@@ -100,7 +100,6 @@ jobs:
     
     - name: Unzip file
       run: |
-        chmod 777 product.img
         ./extract.erofs -i product.img -x -T8
         rm *.img
     
