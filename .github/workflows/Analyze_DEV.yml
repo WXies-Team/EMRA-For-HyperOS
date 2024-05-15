@@ -82,7 +82,7 @@ jobs:
 
     - name: Unzip payload.bin
       run: |
-        python main.py -p
+        python payload_dumper.py payload.bin
         rm *.zip
 
     - name: Unzip img
