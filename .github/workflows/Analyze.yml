@@ -15,7 +15,7 @@ on:
         description: "ROM 链接"
         required: true
       push:
-        description: "是否上传数据库"
+        description: "上传数据库"
         required: true
         type: choice
         options:
