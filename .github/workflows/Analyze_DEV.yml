@@ -15,7 +15,7 @@ on:
         description: "ROM 链接"
         required: true
       push:
-        description: "是否上传数据库"
+        description: "上传数据库"
         required: true
         type: choice
         options:
@@ -87,7 +87,7 @@ jobs:
 
     - name: Unzip img
       run: |
-        python payload_dumper.py payload.bin --out ./
+        python payload_dumper.py --out ./ --images product payload.bin
         rm payload.bin
     
     - name: Unzip file
