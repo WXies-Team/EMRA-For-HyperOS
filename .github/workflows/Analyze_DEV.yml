@@ -49,15 +49,7 @@ jobs:
     - name: Install dependence
       run: |
         sudo apt-get install -y android-sdk-build-tools
-        pip install -r requirements.txt
-
-    - name: Download payload-dumper-go
-      uses: robinraju/release-downloader@v1.10
-      with:
-        repository: "ssut/payload-dumper-go"
-        latest: true
-        extract: true
-        fileName: "payload-dumper-go_*_linux_amd64.tar.gz"
+        pip install -r requirements_DEV.txt
 
     - name: Download extract.erofs
       uses: robinraju/release-downloader@v1.10
