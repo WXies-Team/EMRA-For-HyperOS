@@ -161,7 +161,6 @@ jobs:
           elif [ "${{ github.event.inputs.device }}" = "Fold" ]; then
             git add fold/
           else
-            echo "Unknown device type."
             exit 1
           fi
         if [ "${{ github.event.inputs.push }}" = "是" ]; then
@@ -169,6 +168,7 @@ jobs:
             git push origin main
             exit 0
           elif [ "${{ github.event.inputs.push }}" = "否" ]; then
+            exit 0
           else
             exit 0
           fi
