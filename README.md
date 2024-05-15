@@ -54,7 +54,7 @@
                           从 zip 文件中提取 payload.bin
     -i, --img             从 payload.bin 中提取指定镜像
     -f, --files           从镜像中提取文件
-    -t  --devicetype      修改字典设备类型 (需要2个参数), 1/0 => 备份/不备份, ph/f/p => phone/fold/pad
+    -t  --devicetype      修改字典设备类型 (需要2个参数), 0/1 => 不备份/备份, ph/f/p => phone/fold/pad
     -a, --apk             删除指定的 APK
     -n, --rename          重命名 APK 文件
     -u, --update-version  更新 APK 版本
