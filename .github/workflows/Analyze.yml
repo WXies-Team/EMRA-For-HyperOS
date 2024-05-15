@@ -69,7 +69,7 @@ jobs:
 
     - name: Set permission
       run: |
-       chmod -x extract.erofs
+       chmod +x extract.erofs
 
     - name: Download ROM
       run: |
