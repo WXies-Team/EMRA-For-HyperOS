@@ -14,6 +14,13 @@ on:
       link:
         description: 'ROM 链接'
         required: true
+      push:
+        description: '是否上传数据库'
+        required: true
+        type: choice
+        options:
+        - '是'
+        - '否'
       devicename:
         description: '设备名'
         required: false
@@ -52,8 +59,9 @@ jobs:
         extract: true
         fileName: 'erofs-utils-*-Linux_x86_64-*.zip'
 
-    - name: Remove file
+    - name: Set environment
       run: |
+       chmod -x extract.erofs
        rm *.zip
 
     - name: Download ROM
@@ -148,5 +156,12 @@ jobs:
             echo "Unknown device type."
             exit 1
           fi
-        git commit -m "Upload Database ${{ github.event.inputs.devicename }} ${{ github.event.inputs.osversion }}"
-        git push origin main
+        if [ "${{ github.event.inputs.push }}" = "是" ]; then
+            git commit -m "Upload Database ${{ github.event.inputs.devicename }} ${{ github.event.inputs.osversion }}"
+            git push origin main
+            exit 0
+          elif [ "${{ github.event.inputs.push }}" = "否" ]; then
+          else
+            exit 0
+          fi
+        
