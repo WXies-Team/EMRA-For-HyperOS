@@ -67,7 +67,7 @@ jobs:
         extract: true
         fileName: "erofs-utils-*-Linux_x86_64-*.zip"
 
-    - name: Set environment
+    - name: Set permission
       run: |
        chmod -x extract.erofs
 
