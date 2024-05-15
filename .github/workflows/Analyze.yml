@@ -70,6 +70,7 @@ jobs:
     - name: Set permission
       run: |
        chmod +x extract.erofs
+       rm *.tar.gz *.zip
 
     - name: Download ROM
       run: |
