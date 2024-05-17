@@ -102,8 +102,7 @@ jobs:
     - name: Unzip file
       run: |
         ./extract.erofs -i product.img -x -T8
-        rm *.img
-    
+        rm *.img 
 
     - name: Remove exclude apk
       run: |
