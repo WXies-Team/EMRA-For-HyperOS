@@ -137,7 +137,7 @@ jobs:
           update_apk
           update_name_apk
 
-    - name: Update database
+    - name: Push database
       run: |
         python main.py -t 1 ph
             git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
