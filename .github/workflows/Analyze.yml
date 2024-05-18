@@ -155,7 +155,6 @@ jobs:
         if [ "${{ github.event.inputs.push }}" = "是" ]; then
             git commit -m "Upload Database ${{ github.event.inputs.devicename }} ${{ github.event.inputs.osversion }}"
             git push origin main
-            exit 0
           elif [ "${{ github.event.inputs.push }}" = "否" ]; then
             exit 0
           else
