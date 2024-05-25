@@ -58,10 +58,6 @@
     -c, --clean           删除不需要的文件和文件夹
 ```
 
-## 贡献
-
-欢迎向该项目提出改进建议或提交错误报告。请通过 [GitHub Issues](https://github.com/HoratioShaw/EMRA-For-RedMagicOS/issues) 提交。
-
 ## 相关项目
 
 [EMRA For Flyme](https://github.com/WXies-Team/EMRA-For-Flyme)
