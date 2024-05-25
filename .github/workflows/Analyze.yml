@@ -121,15 +121,15 @@ jobs:
       run: |
         python main.py -m
 
-    - name: Upload json
+    - name: Upload database
       uses: actions/upload-artifact@v4
       with:
-        name: Update_json
+        name: Database
         path: |
           app_version.json
           app_code.json
     
-    - name: Upload update_apk
+    - name: Upload update apk
       uses: actions/upload-artifact@v4
       with:
         name: Update_apk
@@ -153,8 +153,8 @@ jobs:
             exit 1
           fi
         if [ "${{ github.event.inputs.push }}" = "是" ]; then
-            git commit -m "Upload Database ${{ github.event.inputs.devicename }} ${{ github.event.inputs.osversion }}"
-            git push origin main
+            git commit -m "Database：Update ${{ github.event.inputs.devicename }} ${{ github.event.inputs.osversion }} by Actions"
+            git push
           elif [ "${{ github.event.inputs.push }}" = "否" ]; then
             exit 0
           else
