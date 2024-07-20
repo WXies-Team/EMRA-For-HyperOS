@@ -470,39 +470,22 @@ def git_push():
     subprocess.run(["git", "push"]) 
 
 def get_info():
-        try:
+    properties = {
+        "ro.product.product.name": "设备名",
+        "ro.product.build.version.incremental": "软件版本号",
+        "ro.product.build.date": "编译时间",
+        "ro.product.build.id": "基线",
+        "ro.product.build.fingerprint": "指纹"
+    }
+
+    try:
         with open("./product/etc/build.prop", "r") as file:
-            for line in file:
-                if line.startswith("ro.product.product.name"):
-                    info_device_name = line.split("=")[1].strip()
-                    print(f"设备名: {info_device_name}")
+            lines = file.readlines()
+            for key, label in properties.items():
+                for line in lines:
+                    if line.startswith(key):
+                        value = line.split("=")[1].strip()
+                        print(f"{label}: {value}")
+                        break
     except FileNotFoundError:
         print("请在执行 -f 指令后再执行本参数")
-                try:
-        with open("./product/etc/build.prop", "r") as file:
-            for line in file:
-                if line.startswith("ro.product.build.version.incremental"):
-                    info_os_version = line.split("=")[1].strip()
-                    print(f"软件版本号: {info_os_version}")
-    except FileNotFoundError:
-        try:
-        with open("./product/etc/build.prop", "r") as file:
-            for line in file:
-                if line.startswith("ro.product.build.date"):
-                    info_build_date = line.split("=")[1].strip()
-                    print(f"编译时间: {info_build_date}")
-    except FileNotFoundError:
-        try:
-        with open("./product/etc/build.prop", "r") as file:
-            for line in file:
-                if line.startswith("ro.product.build.id"):
-                    info_build_date = line.split("=")[1].strip()
-                    print(f"基线: {info_build_date}")
-    except FileNotFoundError:
-        try:
-        with open("./product/etc/build.prop", "r") as file:
-            for line in file:
-                if line.startswith("ro.product.build.fingerprint"):
-                    info_build_fingerprint = line.split("=")[1].strip()
-                    print(f"指纹: {info_build_fingerprint}")
-    except FileNotFoundError:
