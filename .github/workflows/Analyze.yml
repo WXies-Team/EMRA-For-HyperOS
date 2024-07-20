@@ -130,6 +130,13 @@ jobs:
         path: |
           app_version.json
           app_code.json
+
+    - name: Upload build.prop
+      uses: actions/upload-artifact@v4
+      with:
+        name: build.prop
+        path: |
+          product/etc/build.prop
     
     - name: Upload update apk
       uses: actions/upload-artifact@v4
