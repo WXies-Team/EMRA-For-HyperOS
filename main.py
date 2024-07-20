@@ -16,7 +16,7 @@ def parse_arguments():
     parser.add_argument('-f', '--files', action='store_true',
                         help='Extract files from EROFS product.img')
     parser.add_argument('-t', '--devicetype', nargs=2, metavar=('Int', 'String'),
-                        help='Change the dictionary type (two parameters in total), 0/1 => no backup/backup, ph/f/p/fl => phone/fold/tablet/flip')
+                        help='Change the dictionary type (two parameters in total), 0/1 => no backup/backup, ph/f/p/fp => phone/fold/tablet/flip')
     parser.add_argument('-a', '--apk', action='store_true',
                         help='Remove specified APKs')
     parser.add_argument('-n', '--rename', action='store_true',

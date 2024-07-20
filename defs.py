@@ -52,6 +52,22 @@ def move_json(backup, type_name):
                         print("字典库已变更为 Pad")
                 except Exception as e:
                     print(f"异常: {e}")
+            elif type_n == "fp":
+                src_1 = os.path.join("./flip", "app_version.json")
+                dst_1 = os.path.join(".", "app_version.json")
+                src_2 = os.path.join("./flip", "app_code.json")
+                dst_2 = os.path.join(".", "app_code.json")
+                # 将文件复制到根目录下
+                shutil.copy2(src_1, dst_1)
+                shutil.copy2(src_2, dst_2)
+                try:
+                    with open(JSON_V, 'w') as file:
+                        new_content = "flip"
+                        file.write(new_content)
+                        print("字典库已变更为 flip")
+                except Exception as e:
+                    print(f"异常: {e}")
+
 
     # 获取字典库当前列表
     try:
@@ -87,11 +103,22 @@ def move_json(backup, type_name):
                 dst_1 = os.path.join("./pad", "app_version.json")
                 src_2 = os.path.join(".", "app_code.json")
                 dst_2 = os.path.join("./pad", "app_code.json")
-                # 将文件移动到 pad 目录下
+                # 将文件移动到 flip 目录下
                 shutil.move(src_1, dst_1)
                 shutil.move(src_2, dst_2)
                 print("字典库已同步到 Pad 目录，正在切换")
                 move_files(type_name)
+            elif line == "flip":
+                src_1 = os.path.join(".", "app_version.json")
+                dst_1 = os.path.join("./flip", "app_version.json")
+                src_2 = os.path.join(".", "app_code.json")
+                dst_2 = os.path.join("./flip", "app_code.json")
+                # 将文件移动到 flip 目录下
+                shutil.move(src_1, dst_1)
+                shutil.move(src_2, dst_2)
+                print("字典库已同步到 Pad 目录，正在切换")
+                move_files(type_name)
+
         elif int(backup) == 0:
             print("正在覆盖字典库目录")
             move_files(type_name)
@@ -203,6 +230,7 @@ def extract_files():
                     # 建立一个集合，用来判断是否为 Fold 或者 Pad
                     is_fold = {"cetus", "zizhan", "babylon", "goku"}
                     is_pad = {"nabu", "elish", "enuma", "dagu", "pipa", "liuqin", "yudi", "yunluo", "xun", "sheng", "dizi", "ruan"}
+                    is_flip = {"ruyi"}
 
                     if device_name in is_fold:
                         print("\n检测到包设备为 Fold，请输入-t 0/1(不备份/备份) f 参数切换字库")
@@ -210,6 +238,8 @@ def extract_files():
                     elif device_name in is_pad:
                         print("\n检测到包设备为 Pad，请输入-t 0/1(不备份/备份) p 参数切换字库")
                         break
+                    elif device_name in is_flip:
+                        print("\n检测到包设备为 flip,请输入-t 0/1(不备份/备份) fp 参数切换字库")
                     else:
                         print("\n检测到包设备为 Phone，请输入-t 0/1(不备份/备份) ph 参数切换字库")
                         break                    
@@ -336,7 +366,7 @@ def update_apk_name():
         line = file.readline()
 
     # 判断当前字典库类别
-    if line == "Phone" or line == "Fold":
+    if line == "Phone" or line == "Fold" or line == "flip":
         # 如果第二个词典文件存在，则读取其中的内容
         if os.path.exists(APK_APP_NAME):
             with open(APK_APP_NAME, 'r', encoding='utf-8') as f:
@@ -441,6 +471,9 @@ def git_push():
             elif line == "Fold":
                 move_json(1, "f")
                 subprocess.run(["git", "add", "fold/"]) 
+            elif line == "flip":
+                move_json(1,"fp")
+                subprocess.run(["git"],"add","flip/")
             else:
                 print("未检测到字库，无法上传")
     except Exception as e:

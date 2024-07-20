@@ -11,6 +11,7 @@ on:
         - "Phone"
         - "Pad"
         - "Fold"
+        - "Flip"
       link:
         description: "ROM 链接"
         required: true
@@ -74,6 +75,8 @@ jobs:
             python main.py -t 0 p
           elif [ "${{ github.event.inputs.device }}" = "Fold" ]; then
             python main.py -t 0 f
+          elif [ "${{ github.event.inputs.device }}" = "Flipl" ]; then
+            python main.py -t 0 fp
           else
             echo "Invalid device specified."
             exit 1
@@ -149,6 +152,8 @@ jobs:
             git add pad/
           elif [ "${{ github.event.inputs.device }}" = "Fold" ]; then
             git add fold/
+          elif [ "${{ github.event.inputs.device }}" = "Fold" ]; then
+            git add flip/
           else
             exit 1
           fi
