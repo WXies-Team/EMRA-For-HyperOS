@@ -468,3 +468,41 @@ def git_push():
         print(f"异常，报错信息: {e}")
     subprocess.run(["git", "commit","-m",commit]) 
     subprocess.run(["git", "push"]) 
+
+def get_info():
+        try:
+        with open("./product/etc/build.prop", "r") as file:
+            for line in file:
+                if line.startswith("ro.product.product.name"):
+                    info_device_name = line.split("=")[1].strip()
+                    print(f"设备名: {info_device_name}")
+    except FileNotFoundError:
+        print("请在执行 -f 指令后再执行本参数")
+                try:
+        with open("./product/etc/build.prop", "r") as file:
+            for line in file:
+                if line.startswith("ro.product.build.version.incremental"):
+                    info_os_version = line.split("=")[1].strip()
+                    print(f"软件版本号: {info_os_version}")
+    except FileNotFoundError:
+        try:
+        with open("./product/etc/build.prop", "r") as file:
+            for line in file:
+                if line.startswith("ro.product.build.date"):
+                    info_build_date = line.split("=")[1].strip()
+                    print(f"编译时间: {info_build_date}")
+    except FileNotFoundError:
+        try:
+        with open("./product/etc/build.prop", "r") as file:
+            for line in file:
+                if line.startswith("ro.product.build.id"):
+                    info_build_date = line.split("=")[1].strip()
+                    print(f"基线: {info_build_date}")
+    except FileNotFoundError:
+        try:
+        with open("./product/etc/build.prop", "r") as file:
+            for line in file:
+                if line.startswith("ro.product.build.fingerprint"):
+                    info_build_fingerprint = line.split("=")[1].strip()
+                    print(f"指纹: {info_build_fingerprint}")
+    except FileNotFoundError:
