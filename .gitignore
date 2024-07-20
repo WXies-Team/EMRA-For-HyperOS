@@ -17,10 +17,10 @@
 *.dll
 
 # 忽略指定的文件
-app_code_name.json
-app_code.json
-app_version.json
-app_json.txt
+/app_code_name.json
+/app_code.json
+/app_version.json
+/app_json.txt
 
 # 忽略指定的文件夹
 update_name_apk/
