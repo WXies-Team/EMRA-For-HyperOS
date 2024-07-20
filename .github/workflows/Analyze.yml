@@ -152,7 +152,7 @@ jobs:
             git add pad/
           elif [ "${{ github.event.inputs.device }}" = "Fold" ]; then
             git add fold/
-          elif [ "${{ github.event.inputs.device }}" = "Fold" ]; then
+          elif [ "${{ github.event.inputs.device }}" = "Flip" ]; then
             git add flip/
           else
             exit 1
