@@ -202,20 +202,8 @@ def extract_img():
 def extract_files():
     try:
         # 使用 subprocess 模块运行 shell 命令，提取镜像文件中的文件
-        output = subprocess.check_output(["file", "product.img"]).decode("utf-8")
-        print("当前镜像打包格式:", output)
-        if "EROFS filesystem" in output:
-            # 如果输出内容包含 EROFS filesystem 则使用 extract.erofs 解压
-            # -i 参数指定输入的镜像文件为，-x 参数指定提取文件，-T 参数指定使用线程提取文件
-            subprocess.run(["./extract.erofs", "-i", "product.img", "-x", "-T16"])
-        elif "data" in output:
-            # 如果输出内容包含 data 则使用7zip解压
-            # x 参数指定输入的镜像文件为，-o 提取指定提取文件到目录下
-            subprocess.run(["7z", "x", "product.img", r"-o.\product"])
-        else:
-            print("未知的文件系统类型")
-    except subprocess.CalledProcessError as e:
-        print("解包失败:", e)
+        # -i 参数指定输入的镜像文件为，-x 参数指定提取文件，-T 参数指定使用线程提取文件
+        subprocess.run(["./extract.erofs", "-i", "product.img", "-x", "-T16"])
     except Exception as e:
         print("解包失败:", e)
 
