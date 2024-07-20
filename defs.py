@@ -62,9 +62,9 @@ def move_json(backup, type_name):
                 shutil.copy2(src_2, dst_2)
                 try:
                     with open(JSON_V, 'w') as file:
-                        new_content = "flip"
+                        new_content = "Flip"
                         file.write(new_content)
-                        print("字典库已变更为 flip")
+                        print("字典库已变更为 Flip")
                 except Exception as e:
                     print(f"异常: {e}")
 
@@ -108,7 +108,7 @@ def move_json(backup, type_name):
                 shutil.move(src_2, dst_2)
                 print("字典库已同步到 Pad 目录，正在切换")
                 move_files(type_name)
-            elif line == "flip":
+            elif line == "Flip":
                 src_1 = os.path.join(".", "app_version.json")
                 dst_1 = os.path.join("./flip", "app_version.json")
                 src_2 = os.path.join(".", "app_code.json")
@@ -116,7 +116,7 @@ def move_json(backup, type_name):
                 # 将文件移动到 flip 目录下
                 shutil.move(src_1, dst_1)
                 shutil.move(src_2, dst_2)
-                print("字典库已同步到 Pad 目录，正在切换")
+                print("字典库已同步到 Flip 目录，正在切换")
                 move_files(type_name)
 
         elif int(backup) == 0:
@@ -366,7 +366,7 @@ def update_apk_name():
         line = file.readline()
 
     # 判断当前字典库类别
-    if line == "Phone" or line == "Fold" or line == "flip":
+    if line == "Phone" or line == "Fold" or line == "Flip":
         # 如果第二个词典文件存在，则读取其中的内容
         if os.path.exists(APK_APP_NAME):
             with open(APK_APP_NAME, 'r', encoding='utf-8') as f:
@@ -471,7 +471,7 @@ def git_push():
             elif line == "Fold":
                 move_json(1, "f")
                 subprocess.run(["git", "add", "fold/"]) 
-            elif line == "flip":
+            elif line == "Flip":
                 move_json(1,"fp")
                 subprocess.run(["git"],"add","flip/")
             else:
