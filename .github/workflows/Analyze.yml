@@ -94,8 +94,7 @@ jobs:
     
     - name: Unzip file
       run: |
-        ./extract.erofs -i product.img -x -T8
-        rm *.img 
+        python main.py -f
 
     - name: Remove exclude apk
       run: |
