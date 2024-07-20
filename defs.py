@@ -203,7 +203,7 @@ def extract_files():
     try:
         # 使用 subprocess 模块运行 shell 命令，提取镜像文件中的文件
         # -i 参数指定输入的镜像文件为，-x 参数指定提取文件，-T 参数指定使用线程提取文件
-        subprocess.run(["./extract.erofs", "-i", "product.img", "-x", "-T16"])
+        subprocess.run(["./extract.erofs", "-i", "product.img", "-x", "-T8"])
     except Exception as e:
         print("解包失败:", e)
 
