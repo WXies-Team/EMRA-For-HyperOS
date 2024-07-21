@@ -4,7 +4,7 @@ import subprocess
 import json
 import fnmatch
 import glob
-import apkfile
+from apkfile import ApkFile
 import platform
 
 src_dir = os.path.abspath(__file__)

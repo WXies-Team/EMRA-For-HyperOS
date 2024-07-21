@@ -93,10 +93,10 @@ def extract_files():
                     device_name = line.split("=")[1].strip()
                     for dtype, names in device_types.items():
                         if device_name in names:
-                            print(f"\n检测到包设备为 {dtype}，请使用 -t 0/1(不备份/备份) {dtype.lower()} 参数切换字库")
+                            print(f"\n检测到包设备为 {dtype}，请使用 -t 参数切换字库")
                             get_info()
                     else:
-                        print("\n检测到包设备为 Phone，请输入-t 0/1(不备份/备份) ph 参数切换字库")
+                        print("\n检测到包设备为 Phone，请输入-t 参数切换字库")
                         get_info()
     except FileNotFoundError:
         print("无法获取设备名")
