@@ -168,6 +168,7 @@ jobs:
             git push
           elif [ "${{ github.event.inputs.push }}" = "否" ]; then
           else
+            exit 0
           fi
           
     - name: Get Info
