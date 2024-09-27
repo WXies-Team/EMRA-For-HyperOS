@@ -3,7 +3,8 @@ import shutil  # 导入shutil模块，用于复制、移动、删除文件和目
 import subprocess  # 导入subprocess模块，用于执行系统命令
 import fnmatch  # 导入fnmatch模块，用于文件名匹配
 import json  # 导入json模块，用于读写JSON格式的数据
-from apkfile import ApkFile  # 导入apkfile.py中定义的ApkFile类
+import platform
+from pyaxmlparser import APK
 
 def move_json(backup, type_name):
     def move_files(type_n):
@@ -201,11 +202,13 @@ def extract_img():
 
 def extract_files():
     try:
-        # 使用 subprocess 模块运行 shell 命令，提取镜像文件中的文件
-        # -i 参数指定输入的镜像文件为，-x 参数指定提取文件，-T 参数指定使用线程提取文件
-        subprocess.run(["./extract.erofs", "-i", "product.img", "-x", "-T8"])
-    except Exception as e:
-        print("解包失败:", e)
+        os_type = platform.system()
+        if os_type == "Windows":
+            option = "-T16"
+        else:
+            option = "-T8"
+        
+        subprocess.run(["./extract.erofs", "-i", product.img, "-x", option])
 
     # 获取设备代号
     try:
