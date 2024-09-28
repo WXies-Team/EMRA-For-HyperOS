@@ -198,8 +198,6 @@ def extract_img():
     # -c 参数指定最大并发数为 8，-o 指定提取后的文件输出到当前目录下
     # -p 参数指定提取指定镜像，"payload.bin" 为输入文件
     subprocess.run(["./payload-dumper-go", "-c", "8", "-o","./", "-p", "product", "payload.bin"])
-    output = subprocess.check_output(["file", "product.img"]).decode("utf-8")
-    print("当前镜像打包格式:", output)
 
 
 def extract_files():
