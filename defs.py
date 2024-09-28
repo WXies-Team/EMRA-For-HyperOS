@@ -207,7 +207,7 @@ def extract_files():
             option = "-T16"
         else:
             option = "-T8"
-        subprocess.run(["./extract.erofs", "-i", product.img, "-x", option])
+        subprocess.run(["./extract.erofs", "-i", "product.img", "-x", option])
 
         with open("./product/etc/build.prop", "r") as file:
             for line in file:
