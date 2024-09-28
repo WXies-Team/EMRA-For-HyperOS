@@ -4,7 +4,7 @@ import subprocess  # 导入subprocess模块，用于执行系统命令
 import fnmatch  # 导入fnmatch模块，用于文件名匹配
 import json  # 导入json模块，用于读写JSON格式的数据
 import platform
-from pyaxmlparser import APK
+from apkfile import ApkFile  # 导入apkfile.py中定义的ApkFile类
 
 def move_json(backup, type_name):
     def move_files(type_n):
@@ -198,6 +198,8 @@ def extract_img():
     # -c 参数指定最大并发数为 8，-o 指定提取后的文件输出到当前目录下
     # -p 参数指定提取指定镜像，"payload.bin" 为输入文件
     subprocess.run(["./payload-dumper-go", "-c", "8", "-o","./", "-p", "product", "payload.bin"])
+    output = subprocess.check_output(["file", "product.img"]).decode("utf-8")
+    print("当前镜像打包格式:", output)
 
 
 def extract_files():
@@ -207,35 +209,32 @@ def extract_files():
             option = "-T16"
         else:
             option = "-T8"
-        
         subprocess.run(["./extract.erofs", "-i", product.img, "-x", option])
 
-    # 获取设备代号
-    try:
         with open("./product/etc/build.prop", "r") as file:
             for line in file:
                 if line.startswith("ro.product.product.name"):
                     device_name = line.split("=")[1].strip()
                     print(f"设备名: {device_name}")
 
-                    # 建立一个集合，用来判断是否为 Fold 或者 Pad
                     is_fold = {"cetus", "zizhan", "babylon", "goku"}
                     is_pad = {"nabu", "elish", "enuma", "dagu", "pipa", "liuqin", "yudi", "yunluo", "xun", "sheng", "dizi", "ruan"}
                     is_flip = {"ruyi"}
 
                     if device_name in is_fold:
                         print("\n检测到包设备为 Fold，请输入-t 0/1(不备份/备份) f 参数切换字库")
-                        break
                     elif device_name in is_pad:
                         print("\n检测到包设备为 Pad，请输入-t 0/1(不备份/备份) p 参数切换字库")
-                        break
                     elif device_name in is_flip:
                         print("\n检测到包设备为 flip,请输入-t 0/1(不备份/备份) fp 参数切换字库")
                     else:
                         print("\n检测到包设备为 Phone，请输入-t 0/1(不备份/备份) ph 参数切换字库")
-                        break                    
+                    break
     except FileNotFoundError:
         print("无法获取设备名")
+    except Exception as e:
+        print(f"发生错误: {e}")
+
 
 def remove_some_apk(exclude_apk):
     # 遍历当前目录及其子目录
