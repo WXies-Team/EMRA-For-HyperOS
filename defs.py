@@ -3,7 +3,6 @@ import shutil  # 导入 shutil 模块，用于复制、移动、删除文件和�
 import subprocess  # 导入 subprocess 模块，用于执行系统命令
 import fnmatch  # 导入 fnmatch 模块，用于文件名匹配
 import json  # 导入 json 模块，用于读写 JSON 格式的数据
-import zipfile # 导入 zipfile 模块，用于解压文件
 from apkfile import ApkFile  # 导入 apkfile 中定义的 ApkFile 类
 
 def move_json(backup, type_name):
@@ -188,8 +187,7 @@ def extract_payload_bin(zip_files):
     """从ZIP文件中提取payload.bin文件"""
     for f in zip_files:
         try:
-            with zipfile.ZipFile(f, 'r') as archive:
-                archive.extract('payload.bin', path=os.path.dirname(f))
+            subprocess.run(["7z", "x", "{}".format(f), "payload.bin"])
         except Exception as e:
             print(f"异常，报错信息: {e}")
 

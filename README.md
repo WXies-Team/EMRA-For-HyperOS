@@ -23,7 +23,7 @@
    git clone https://github.com/WXies-Team/EMRA-For-HyperOS.git
    ```
 
-2. 确保已安装 Python 3.x 并安装依赖库：
+2. 确保已安装 Python 3.x, aria2c, 7zip 并安装依赖库：
 
    ```
    pip install -r requirements.txt
@@ -52,7 +52,7 @@
     -m, --update-name     更新 APK 名称
     -c, --clean           删除不需要的文件和文件夹
     -g, --git-push        上传数据库到仓库
-    -o, --get-info        
+    -o, --get-info        获取包信息
 ```
 
 ## 相关项目
