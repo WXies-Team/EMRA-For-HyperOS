@@ -11,6 +11,9 @@ dst_dir = os.path.join(src_dir, "output_apk")
 # 在当前目录下搜索所有以".zip"为后缀的文件，并返回它们的文件路径
 zip_files = glob.glob("*.zip")
 
+# 在当前目录下搜索所有以".zip"为后缀的文件，并返回它们的文件路径
+build_prop_path = glob.glob("build.prop")
+
 # 创建名为"output_apk"的目录（如果它不存在）
 output_dir = 'output_apk'
 

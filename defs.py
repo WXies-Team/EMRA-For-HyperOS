@@ -215,32 +215,27 @@ def extract_files():
         for image in partitions:
             subprocess.run([tools_path + "extract.erofs", "-i", image + ".img", "-x", "-T8"])
         
-        # 搜索当前目录及其子目录中的 build.prop 文件
-        for root, dirs, files in os.walk("."):
-            if "build.prop" in files:
-                build_prop_path = os.path.join(root, "build.prop")
-                
-                with open(build_prop_path, "r") as file:
-                    for line in file:
-                        if line.startswith("ro.product.product.name"):
-                            device_name = line.split("=")[1].strip()
-                            print(f"设备名: {device_name}")
+        # 搜索当前目录及其子目录中的 build.prop 文件 
+        with open(build_prop_path, "r") as file:
+            for line in file:
+                if line.startswith("ro.product.product.name"):
+                    device_name = line.split("=")[1].strip()
+                    print(f"设备名: {device_name}")
 
-                            if device_name in is_fold:
-                                print("\n检测到包设备为 Fold，请输入-t 0/1(不备份/备份) f 参数切换字库")
-                            elif device_name in is_pad:
-                                print("\n检测到包设备为 Pad，请输入-t 0/1(不备份/备份) p 参数切换字库")
-                            elif device_name in is_flip:
-                                print("\n检测到包设备为 flip,请输入-t 0/1(不备份/备份) fp 参数切换字库")
-                            else:
-                                print("\n检测到包设备为 Phone，请输入-t 0/1(不备份/备份) ph 参数切换字库")
-                            break
-                break  # 找到后退出循环
-        else:
-            print("未找到 build.prop 文件")
-    
+                    if device_name in is_fold:
+                        print("\n检测到包设备为 Fold，请输入-t 0/1(不备份/备份) f 参数切换字库")
+                    elif device_name in is_pad:
+                        print("\n检测到包设备为 Pad，请输入-t 0/1(不备份/备份) p 参数切换字库")
+                    elif device_name in is_flip:
+                        print("\n检测到包设备为 flip,请输入-t 0/1(不备份/备份) fp 参数切换字库")
+                    else:
+                        print("\n检测到包设备为 Phone，请输入-t 0/1(不备份/备份) ph 参数切换字库")
+                    break  # 找到后退出循环
+            else:
+                print("未找到 build.prop 文件")
     except (FileNotFoundError, Exception) as e:
         print("发生错误:", e)
+
 
 def remove_some_apk(exclude_apk):
     # 遍历当前目录及其子目录
