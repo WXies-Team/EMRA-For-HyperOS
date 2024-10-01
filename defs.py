@@ -203,7 +203,7 @@ def extract_img():
 def extract_files(build_prop_path):
     try:
         # 提取镜像文件中的文件
-        output = magic.from_file("system.img")
+        output = magic.from_file(partitions[0])
         print("当前镜像打包格式:", output)
         if "EROFS filesystem" in output:
             # 如果输出内容包含 EROFS filesystem 则使用 extract.erofs 解压
