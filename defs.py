@@ -6,7 +6,6 @@ import json  # 导入 json 模块，用于读写 JSON 格式的数据
 import threading # 导入 threading 模块，用于多线程下载
 import requests # 导入 requests 模块，用于多线程下载
 import zipfile # 导入 zipfile 模块，用于解压文件
-import platform # 导入 platform 模块，用于读取设备信息
 from apkfile import ApkFile  # 导入 apkfile 中定义的 ApkFile 类
 
 def move_json(backup, type_name):
