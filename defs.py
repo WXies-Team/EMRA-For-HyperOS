@@ -3,7 +3,6 @@ import shutil  # 导入shutil模块，用于复制、移动、删除文件和目
 import subprocess  # 导入subprocess模块，用于执行系统命令
 import fnmatch  # 导入fnmatch模块，用于文件名匹配
 import json  # 导入json模块，用于读写JSON格式的数据
-import platform
 from apkfile import ApkFile  # 导入apkfile.py中定义的ApkFile类
 
 def move_json(backup, type_name):
@@ -202,13 +201,10 @@ def extract_img():
 
 def extract_files():
     try:
-        os_type = platform.system()
-        if os_type == "Windows":
-            option = "-T16"
-        else:
-            option = "-T8"
-        subprocess.run(["./extract.erofs", "-i", "product.img", "-x", option])
-
+        # 提取镜像文件中的文件
+        subprocess.run(["./extract.erofs", "-i", "product.img", "-x", "-T8"])
+        
+        # 获取设备代号
         with open("./product/etc/build.prop", "r") as file:
             for line in file:
                 if line.startswith("ro.product.product.name"):
@@ -228,10 +224,8 @@ def extract_files():
                     else:
                         print("\n检测到包设备为 Phone，请输入-t 0/1(不备份/备份) ph 参数切换字库")
                     break
-    except FileNotFoundError:
-        print("无法获取设备名")
-    except Exception as e:
-        print(f"发生错误: {e}")
+    except (FileNotFoundError, Exception) as e:
+        print("发生错误:", e)
 
 
 def remove_some_apk(exclude_apk):
