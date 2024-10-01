@@ -42,27 +42,6 @@ jobs:
         sudo apt-get install -y android-sdk-build-tools
         pip install -r requirements.txt
 
-    - name: Download payload-dumper-go
-      uses: robinraju/release-downloader@v1.10
-      with:
-        repository: "ssut/payload-dumper-go"
-        latest: true
-        extract: true
-        fileName: "payload-dumper-go_*_linux_amd64.tar.gz"
-
-    - name: Download extract.erofs
-      uses: robinraju/release-downloader@v1.10
-      with:
-        repository: "sekaiacg/erofs-utils"
-        latest: true
-        extract: true
-        fileName: "erofs-utils-*-Linux_x86_64-*.zip"
-
-    - name: Set permission
-      run: |
-       chmod +x extract.erofs
-       rm *.tar.gz *.zip
-
     - name: Download ROM
       run: |
         python main.py -d "${{ github.event.inputs.link }}"
