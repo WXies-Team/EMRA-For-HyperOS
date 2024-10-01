@@ -27,9 +27,9 @@ def parse_arguments():
                         action='store_true', help='Update APK names')
     parser.add_argument('-c', '--clean', action='store_true',
                         help='Delete unnecessary files and folders')
-    parser.add_argument('-g', '--git_push', action='store_true',
+    parser.add_argument('-g', '--git-push', action='store_true',
                         help='Upload Datebase to GitHub repository')
-    parser.add_argument('-o', '--get_info', action='store_true',
+    parser.add_argument('-o', '--get-info', action='store_true',
                         help='Get info from files')
 
 
