@@ -23,7 +23,7 @@
    git clone https://github.com/WXies-Team/EMRA-For-HyperOS.git
    ```
 
-2. 确保已安装 Python 3.x, 7z 并安装依赖库：
+2. 确保已安装 Python 3.x 并安装依赖库：
 
    ```
    pip install -r requirements.txt
