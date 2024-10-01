@@ -1,8 +1,9 @@
-from config import *  # 导入 onfig.py 中定义的全局变量
+from config import *  # 导入 config.py 中定义的全局变量
 import shutil  # 导入 shutil 模块，用于复制、移动、删除文件和目录
 import subprocess  # 导入 subprocess 模块，用于执行系统命令
 import fnmatch  # 导入 fnmatch 模块，用于文件名匹配
 import json  # 导入 json 模块，用于读写 JSON 格式的数据
+import magic # 导入 magic 模块，用于读取 img 格式
 from apkfile import ApkFile  # 导入 apkfile 中定义的 ApkFile 类
 
 def move_json(backup, type_name):
@@ -202,7 +203,24 @@ def extract_img():
 def extract_files(build_prop_path):
     try:
         # 提取镜像文件中的文件
-        subprocess.run(["./extract.erofs", "-i", partitions, "-x", "-T8"])
+        output = magic.from_file("system.img")
+        print("当前镜像打包格式:", output)
+        if "EROFS filesystem" in output:
+            # 如果输出内容包含 EROFS filesystem 则使用 extract.erofs 解压
+            # -i 参数指定输入的镜像文件为，-x 参数指定提取文件，-T 参数指定使用线程提取文件
+            for image in partitions:
+                subprocess.run(["./extract.erofs", "-i", partitions, "-x", "-T8"])
+        elif "data" in output:
+            # 如果输出内容包含 data 则使用7zip解压
+            # x 参数指定输入的镜像文件为，-o 提取指定提取文件到目录下
+            for image in partitions:
+                subprocess.run(["7z", "x", partitions, r"-o.\system"])
+        else:
+            print("未知的文件系统类型")
+    except subprocess.CalledProcessError as e:
+        print("解包失败:", e)
+    except Exception as e:
+        print("解包失败:", e)
         
         # 搜索当前目录及其子目录中的 build.prop 文件
         for root, dirs, files in os.walk("."):
