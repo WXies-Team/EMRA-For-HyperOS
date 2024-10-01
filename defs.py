@@ -199,7 +199,6 @@ def extract_img():
     if tools_path is None:
         raise ValueError("不支持的平台")
     for image in partitions:
-        print(image)
         subprocess.run([tools_path + "payload-dumper-go", "-c", "8", "-o","./", "-p", image, "payload.bin"])
 
 
