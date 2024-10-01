@@ -44,8 +44,8 @@ jobs:
 
     - name: Set permission
       run: |
-       chmod +x extract.erofs
-       
+       chmod +x ./tools/Linux/x86_64/extract.erofs
+
     - name: Download ROM
       run: |
         python main.py -d "${{ github.event.inputs.link }}"
