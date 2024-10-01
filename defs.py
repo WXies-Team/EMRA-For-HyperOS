@@ -4,10 +4,10 @@ import subprocess  # 导入 subprocess 模块，用于执行系统命令
 import fnmatch  # 导入 fnmatch 模块，用于文件名匹配
 import json  # 导入 json 模块，用于读写 JSON 格式的数据
 import magic # 导入 magic 模块，用于读取 img 格式
-import threading
-import requests
 import threading # 导入 threading 模块，用于多线程下载
 import requests # 导入 requests 模块，用于多线程下载
+import py7zr # 导入 py7zr 模块，用于解压文件
+import platform # 导入 platform 模块，用于读取设备信息
 from apkfile import ApkFile  # 导入 apkfile 中定义的 ApkFile 类
 
 def move_json(backup, type_name):
@@ -193,7 +193,8 @@ def extract_payload_bin(zip_files):
     """从ZIP文件中提取payload.bin文件"""
     for f in zip_files:
         try:
-            subprocess.run(["7z", "x", "{}".format(f), "payload.bin"])
+            with py7zr.SevenZipFile(f, mode='r') as archive:
+                archive.extract(targets=['payload.bin'], path=os.path.dirname(f))
         except Exception as e:
             print(f"异常，报错信息: {e}")
 
@@ -216,10 +217,11 @@ def extract_files(build_prop_path):
             for image in partitions:
                 subprocess.run(["./extract.erofs", "-i", partitions, "-x", "-T8"])
         elif "data" in output:
-            # 如果输出内容包含 data 则使用7zip解压
+            # 如果输出内容包含 data 则使用 7z 解压
             # x 参数指定输入的镜像文件为，-o 提取指定提取文件到目录下
             for image in partitions:
-                subprocess.run(["7z", "x", partitions, r"-o.\system"])
+                with py7zr.SevenZipFile(f, mode='r') as archive:
+                    archive.extract(targets=[image + ".img"], path=os.path.dirname(f))
         else:
             print("未知的文件系统类型")
     except subprocess.CalledProcessError as e:

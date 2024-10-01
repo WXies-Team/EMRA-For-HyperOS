@@ -1,3 +1,4 @@
+py7zr
 apkfile
 requests
 magic; sys_platform == 'linux'
