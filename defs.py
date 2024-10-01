@@ -16,7 +16,7 @@ def move_json(backup, type_name):
                 shutil.copy2(src_1, dst_1)
                 shutil.copy2(src_2, dst_2)
                 try:
-                    with open(JSON_V, 'w') as file:
+                    with open(JSON_V, "w") as file:
                         new_content = "Phone"
                         file.write(new_content)
                         print("字典库已变更为 Phone")
@@ -31,7 +31,7 @@ def move_json(backup, type_name):
                 shutil.copy2(src_1, dst_1)
                 shutil.copy2(src_2, dst_2)
                 try:
-                    with open(JSON_V, 'w') as file:
+                    with open(JSON_V, "w") as file:
                         new_content = "Fold"
                         file.write(new_content)
                         print("字典库已变更为 Fold")
@@ -46,7 +46,7 @@ def move_json(backup, type_name):
                 shutil.copy2(src_1, dst_1)
                 shutil.copy2(src_2, dst_2)
                 try:
-                    with open(JSON_V, 'w') as file:
+                    with open(JSON_V, "w") as file:
                         new_content = "Pad"
                         file.write(new_content)
                         print("字典库已变更为 Pad")
@@ -61,7 +61,7 @@ def move_json(backup, type_name):
                 shutil.copy2(src_1, dst_1)
                 shutil.copy2(src_2, dst_2)
                 try:
-                    with open(JSON_V, 'w') as file:
+                    with open(JSON_V, "w") as file:
                         new_content = "Flip"
                         file.write(new_content)
                         print("字典库已变更为 Flip")
@@ -71,7 +71,7 @@ def move_json(backup, type_name):
 
     # 获取字典库当前列表
     try:
-        with open(JSON_V, 'r') as file:
+        with open(JSON_V, "r") as file:
             line = file.readline()
             print("当前字典列表为:", line)
         
@@ -161,17 +161,17 @@ def init_json():
     apk_code_name = {}
     # 查询 APK 排除列表
     if os.path.exists(EXCLUDE_APK_PATH):
-        with open(EXCLUDE_APK_PATH, 'r') as f:
+        with open(EXCLUDE_APK_PATH, "r") as f:
             exclude_apk = [line.strip() for line in f.readlines()]
     # 查询本地字典版本名
     if os.path.exists(APK_VERSION):
-        with open(APK_VERSION, 'r') as f:
+        with open(APK_VERSION, "r") as f:
             apk_version = json.load(f)
     else:
         apk_version = {}
     # 查询本地字典版本号
     if os.path.exists(APK_CODE):
-        with open(APK_CODE, 'r') as f:
+        with open(APK_CODE, "r") as f:
             apk_code = json.load(f)
     else:
         apk_code = {}
@@ -196,17 +196,13 @@ def extract_img():
     # 使用 subprocess 模块运行 shell 命令，执行 payload-dumper-go 的命令，从 payload.bin 文件中提取指定镜像文件
     # -c 参数指定最大并发数为 8，-o 指定提取后的文件输出到当前目录下
     # -p 参数指定提取指定镜像，"payload.bin" 为输入文件
-    if tools_path is None:
-        raise ValueError("不支持的平台")
-    for image in partitions:
-        subprocess.run([tools_path + "payload-dumper-go", "-c", "8", "-o","./", "-p", image, "payload.bin"])
+    subprocess.run([tools_path + "payload-dumper-go", "-c", "8", "-o","./", "-p", image, "payload.bin"])
 
 
 def extract_files():
     try:
         # 提取镜像文件中的文件
-        for image in partitions:
-            subprocess.run([tools_path + "extract.erofs", "-i", image + ".img", "-x", "-T8"])
+        subprocess.run([tools_path + "extract.erofs", "-i", image + ".img", "-x", "-T8"])
         
         # 搜索当前目录及其子目录中的 build.prop 文件 
         with open(build_prop_path, "r") as file:
@@ -220,7 +216,7 @@ def extract_files():
                     elif device_name in is_pad:
                         print("\n检测到包设备为 Pad，请输入-t 0/1(不备份/备份) p 参数切换字库")
                     elif device_name in is_flip:
-                        print("\n检测到包设备为 flip,请输入-t 0/1(不备份/备份) fp 参数切换字库")
+                        print("\n检测到包设备为 flip，请输入-t 0/1(不备份/备份) fp 参数切换字库")
                     else:
                         print("\n检测到包设备为 Phone，请输入-t 0/1(不备份/备份) ph 参数切换字库")
                     break  # 找到后退出循环
@@ -230,12 +226,13 @@ def extract_files():
         print("发生错误:", e)
 
 
+
 def remove_some_apk(exclude_apk):
     # 遍历当前目录及其子目录
-    for root, _, files in os.walk('.'):
+    for root, _, files in os.walk("."):
         for file in files:
             # 判断文件是否为apk文件，且不在要排除的列表中
-            if file.endswith('.apk') and file not in exclude_apk:
+            if file.endswith(".apk") and file not in exclude_apk:
                 src = os.path.join(root, file)
                 dst = os.path.join(output_dir, file)
                 # 将文件移动到output_dir目录下
@@ -277,7 +274,7 @@ def rename_apk(apk_files):
             if not os.path.exists(os.path.join(output_dir, new_name)):
                 os.rename(apk_path, os.path.join(output_dir, new_name))
         except FileNotFoundError as e:
-            print('异常：缺失 Android aapt 环境，请先安装依赖后重试')
+            print("异常：缺失 Android aapt 环境，请先安装依赖后重试")
             break
         except Exception as e:
             print(f"异常，报错信息: {e}")
@@ -288,15 +285,15 @@ def update_apk_version(apk_version, apk_code, apk_code_name):
     # 遍历输出目录下的 apk 文件
     for apk_file in os.listdir(output_dir):
         # 如果文件名以 ".apk" 结尾
-        if apk_file.endswith('.apk'):
+        if apk_file.endswith(".apk"):
             # 解析文件名，获取包名和版本号
             try:
-                x, y, z = os.path.splitext(apk_file)[0].split('^')
+                x, y, z = os.path.splitext(apk_file)[0].split("^")
                 # 如果包名在本地词典中
                 if x in apk_code:
                     # 如果本地词典中的版本号比 Apk 记录的版本号低
                     if apk_code[x] < int(z):
-                        print(f'更新 {x}：{apk_code[x]} -> {z}')
+                        print(f"更新 {x}：{apk_code[x]} -> {z}")
                         if apk_version[x] == y:
                             # 更新本地词典中的版本号
                             apk_version[x] = y
@@ -306,7 +303,7 @@ def update_apk_version(apk_version, apk_code, apk_code_name):
                             src = os.path.join(output_dir, apk_file)
                             dst = os.path.join(update_apk_folder, apk_file)
                             shutil.copy2(src, dst)
-                            print(f'已将 {apk_file} 复制到 {update_apk_folder} 文件夹\n')
+                            print(f"已将 {apk_file} 复制到 {update_apk_folder} 文件夹\n")
                         else:
                             # 更新本地词典中的版本号
                             apk_version[x] = y
@@ -315,18 +312,18 @@ def update_apk_version(apk_version, apk_code, apk_code_name):
                             src = os.path.join(output_dir, apk_file)
                             dst = os.path.join(update_apk_folder, apk_file)
                             shutil.copy2(src, dst)
-                            print(f'已将 {apk_file} 复制到 {update_apk_folder} 文件夹\n')
+                            print(f"已将 {apk_file} 复制到 {update_apk_folder} 文件夹\n")
                     elif apk_code[x] == int(z):
                         if apk_version[x] != y:
-                            print(f'疑似更新 {x}：{apk_version[x]} -> {y}')
+                            print(f"疑似更新 {x}：{apk_version[x]} -> {y}")
                             # 复制新版本的 APK 文件到 update_name_apk 文件夹
                             src = os.path.join(output_dir, apk_file)
                             dst = os.path.join(update_apk_name_folder, apk_file)
                             shutil.copy2(src, dst)
-                            print(f'已将 {apk_file} 复制到 {update_apk_name_folder} 文件夹\n')
+                            print(f"已将 {apk_file} 复制到 {update_apk_name_folder} 文件夹\n")
                 # 如果包名不在本地词典中
                 else:
-                    print(f'添加新应用 {x}:{y}({z})\n')
+                    print(f"添加新应用 {x}:{y}({z})\n")
                     # 在本地词典中添加新的包名和版本号
                     apk_version[x] = y
                     apk_code[x] = int(z) # 以 int 格式写入
@@ -335,39 +332,39 @@ def update_apk_version(apk_version, apk_code, apk_code_name):
                 return
 
     # 保存本地词典到json文件
-    with open(APK_VERSION, 'w') as f:
+    with open(APK_VERSION, "w") as f:
         json.dump(apk_version, f)
-    with open(APK_CODE, 'w') as f:
+    with open(APK_CODE, "w") as f:
         json.dump(apk_code, f)
-    with open(APK_CODE_NAME, 'w') as f:
+    with open(APK_CODE_NAME, "w") as f:
         json.dump(apk_code_name, f)
 
 # 定义更新apk文件名的函数，读取第二个词典并修改apk文件名
 
 
 def update_apk_name():
-    with open(JSON_V, 'r', encoding='utf-8') as file:
+    with open(JSON_V, "r", encoding="utf-8") as file:
         line = file.readline()
 
     # 判断当前字典库类别
     if line == "Phone" or line == "Fold" or line == "Flip":
         # 如果第二个词典文件存在，则读取其中的内容
         if os.path.exists(APK_APP_NAME):
-            with open(APK_APP_NAME, 'r', encoding='utf-8') as f:
+            with open(APK_APP_NAME, "r", encoding="utf-8") as f:
                 apk_name = json.load(f)
         # 如果第二个词典文件不存在，则将其设为空字典
         else:
             apk_name = {}
     elif line == "Pad":
         if os.path.exists(APK_APP_NAME_PAD):
-            with open(APK_APP_NAME_PAD, 'r', encoding='utf-8') as f:
+            with open(APK_APP_NAME_PAD, "r", encoding="utf-8") as f:
                 apk_name = json.load(f)
         else:
             apk_name = {}
 
     # 如果临时词典文件存在，则读取其中的内容
     if os.path.exists(APK_CODE_NAME):
-        with open(APK_CODE_NAME, 'r', encoding='utf-8') as f:
+        with open(APK_CODE_NAME, "r", encoding="utf-8") as f:
             apk_code_name = json.load(f)
     # 如果临时词典文件不存在，则将其设为空字典
     else:
@@ -376,27 +373,27 @@ def update_apk_name():
     def rename_files_in_folder(folder, name_dict, code_dict):
         for apk_file in os.listdir(folder):
             # 如果文件名以".apk"结尾
-            if apk_file.endswith('.apk'):
+            if apk_file.endswith(".apk"):
                 # 解析文件名，获取包名和版本号
-                x, y, z = os.path.splitext(apk_file)[0].split('^')
+                x, y, z = os.path.splitext(apk_file)[0].split("^")
                 # 如果解析的文件名在字典里
                 if x in name_dict:
                     if x in code_dict:
                         # 定义修改的文件名
                         new_x = name_dict[x]
-                        new_apk_file_1 = f'{new_x}_{y}({z}).apk'
+                        new_apk_file_1 = f"{new_x}_{y}({z}).apk"
                         # 修改为新定义的文件名
                         os.rename(os.path.join(folder, apk_file),
                                  os.path.join(folder, new_apk_file_1))
-                        print(f'修改 {apk_file} -> {new_apk_file_1}')
+                        print(f"修改 {apk_file} -> {new_apk_file_1}")
                     else:
                         # 定义修改的文件名
                         new_x = name_dict[x]
-                        new_apk_file_2 = f'{new_x}_{y}({z}).apk'
+                        new_apk_file_2 = f"{new_x}_{y}({z}).apk"
                         # 修改为新定义的文件名
                         os.rename(os.path.join(folder, apk_file),
                                  os.path.join(folder, new_apk_file_2))
-                        print(f'修改 {apk_file} -> {new_apk_file_2}')
+                        print(f"修改 {apk_file} -> {new_apk_file_2}")
 
     # 重命名 output_dir 中的 APK 文件
     rename_files_in_folder(output_dir, apk_name, apk_code_name)
@@ -441,7 +438,7 @@ def git_push():
     commit_text = "Database：Update"
     commit = f"{commit_text} {device_name} {os_version}"
     try:
-        with open(JSON_V, 'r') as file:
+        with open(JSON_V, "r") as file:
             line = file.readline()
             if line == "Phone":
                 move_json(1, "ph")

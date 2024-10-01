@@ -17,7 +17,7 @@ for root, dirs, files in os.walk("."):
                 build_prop_path = os.path.join(root, "build.prop")
 
 # 创建名为"output_apk"的目录（如果它不存在）
-output_dir = 'output_apk'
+output_dir = "output_apk"
 
 update_apk_folder = "update_apk"
 
@@ -33,30 +33,79 @@ if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 
 # 获取名为"output_apk"目录中所有以".apk"为后缀的文件列表
-apk_files = [f for f in os.listdir(output_dir) if f.endswith('.apk')]
+apk_files = [f for f in os.listdir(output_dir) if f.endswith(".apk")]
 
 # 外部工具路径
-tools_path_mapping = {('Windows', 'AMD64'): './tools/Windows/AMD64/',('Linux', 'x86_64'): './tools/Linux/x86_64/',('Linux', 'arm64'): './tools/Linux/arm64/',('Darwin', 'x86_64'): './tools/Darwin/x86_64/',('Darwin', 'arm64'): './tools/Darwin/arm64/',}
+tools_path_mapping = {
+                      ("Windows", "AMD64"): "./tools/Windows/AMD64/",
+                      ("Linux", "x86_64"): "./tools/Linux/x86_64/",
+                      ("Linux", "arm64"): "./tools/Linux/arm64/",
+                      ("Darwin", "x86_64"): "./tools/Darwin/x86_64/",
+                      ("Darwin", "arm64"): "./tools/Darwin/arm64/"
+                     }
 tools_path = tools_path_mapping.get((platform.system(), platform.machine()))
 
 # 定义了两个字符串常量，分别用于指定排除 APK 的文件路径和 APK 版本号和名称的 JSON 文件路径
-EXCLUDE_APK_PATH = 'exclude_apk.txt'
-APK_VERSION = 'app_version.json'
-APK_CODE = 'app_code.json'
-APK_APP_NAME = 'app_name.json'
-APK_APP_NAME_PAD = 'app_name_pad.json'
+EXCLUDE_APK_PATH = "exclude_apk.txt"
+APK_VERSION = "app_version.json"
+APK_CODE = "app_code.json"
+APK_APP_NAME = "app_name.json"
+APK_APP_NAME_PAD = "app_name_pad.json"
 # 定义一个临时字典，用于存储版本名相同但版本号有所变更的 APK
-APK_CODE_NAME = 'app_code_name.json'
+APK_CODE_NAME = "app_code_name.json"
 # 定义字典类型
-JSON_V = 'app_json.txt'
+JSON_V = "app_json.txt"
+
 # 相关分区
-partitions = ["product"]
+partitions = [
+              "product"
+             ]
+for image in partitions:
+    pass
+
 # 设备种类识别
-is_fold = {"cetus", "zizhan", "babylon", "goku"}
-is_pad = {"nabu", "elish", "enuma", "dagu", "pipa", "liuqin", "yudi", "yunluo", "xun", "sheng", "dizi", "ruan"}
-is_flip = {"ruyi"}
+is_fold = {
+           "cetus", 
+           "zizhan", 
+           "babylon", 
+           "goku"
+          }
+is_pad = {
+          "nabu", 
+          "elish", 
+          "enuma", 
+          "dagu", 
+          "pipa", 
+          "liuqin", 
+          "yudi", 
+          "yunluo", 
+          "xun", 
+          "sheng", 
+          "dizi", 
+          "ruan"
+         }
+is_flip = {
+           "ruyi"
+          }
+
 # 需要删除的文件夹
-files_to_delete = ["payload.bin", "product.img", "app_code_name.json"]
-folders_to_delete = ["output_apk", "update_apk", "update_name_apk", "product"]
+files_to_delete = [
+                   "payload.bin", 
+                   "product.img", 
+                   "app_code_name.json"
+                  ]
+folders_to_delete = [
+                     "output_apk", 
+                     "update_apk", 
+                     "update_name_apk", 
+                     "product"
+                    ]
+
 # 获取信息
-properties = {"ro.product.product.name": "设备名","ro.product.build.version.incremental": "软件版本号","ro.product.build.date": "编译时间","ro.product.build.id": "基线","ro.product.build.fingerprint": "指纹"}
+properties = {
+              "ro.product.product.name": "设备名",
+              "ro.product.build.version.incremental": "软件版本号",
+              "ro.product.build.date": "编译时间",
+              "ro.product.build.id": "基线",
+              "ro.product.build.fingerprint": "指纹"
+             }
