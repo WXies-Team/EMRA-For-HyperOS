@@ -45,6 +45,7 @@ jobs:
     - name: Set permission
       run: |
        chmod +x ./tools/Linux/x86_64/extract.erofs
+       chmod +x ./tools/Linux/x86_64/payload-dumper-go
 
     - name: Download ROM
       run: |
