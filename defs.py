@@ -3,7 +3,6 @@ import shutil  # 导入 shutil 模块，用于复制、移动、删除文件和�
 import subprocess  # 导入 subprocess 模块，用于执行系统命令
 import fnmatch  # 导入 fnmatch 模块，用于文件名匹配
 import json  # 导入 json 模块，用于读写 JSON 格式的数据
-import magic # 导入 magic 模块，用于读取 img 格式
 import threading # 导入 threading 模块，用于多线程下载
 import requests # 导入 requests 模块，用于多线程下载
 import zipfile # 导入 zipfile 模块，用于解压文件
@@ -213,25 +212,8 @@ def extract_img():
 def extract_files():
     try:
         # 提取镜像文件中的文件
-        output = magic.from_file(partitions[0])
-        print("当前镜像打包格式:", output)
-        if "EROFS filesystem" in output:
-            # 如果输出内容包含 EROFS filesystem 则使用 extract.erofs 解压
-            # -i 参数指定输入的镜像文件为，-x 参数指定提取文件，-T 参数指定使用线程提取文件
-            for image in partitions:
-                subprocess.run([tools_path + "extract.erofs", "-i", image, "-x", "-T8"])
-        elif "data" in output:
-            # 如果输出内容包含 data 则使用 7z 解压
-            # x 参数指定输入的镜像文件为，-o 提取指定提取文件到目录下
-            for image in partitions:
-                with py7zr.SevenZipFile(f, mode='r') as archive:
-                    archive.extract(targets=[image + ".img"], path=os.path.dirname(f))
-        else:
-            print("未知的文件系统类型")
-    except subprocess.CalledProcessError as e:
-        print("解包失败:", e)
-    except Exception as e:
-        print("解包失败:", e)
+        for image in partitions:
+            subprocess.run([tools_path + "extract.erofs", "-i", image + ".img", "-x", "-T8"])
         
         # 搜索当前目录及其子目录中的 build.prop 文件
         for root, dirs, files in os.walk("."):
