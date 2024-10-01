@@ -6,7 +6,7 @@ import json  # 导入 json 模块，用于读写 JSON 格式的数据
 import magic # 导入 magic 模块，用于读取 img 格式
 import threading # 导入 threading 模块，用于多线程下载
 import requests # 导入 requests 模块，用于多线程下载
-import py7zr # 导入 py7zr 模块，用于解压文件
+import zipfile # 导入 zipfile 模块，用于解压文件
 import platform # 导入 platform 模块，用于读取设备信息
 from apkfile import ApkFile  # 导入 apkfile 中定义的 ApkFile 类
 
@@ -193,8 +193,8 @@ def extract_payload_bin(zip_files):
     """从ZIP文件中提取payload.bin文件"""
     for f in zip_files:
         try:
-            with py7zr.SevenZipFile(f, mode='r') as archive:
-                archive.extract(targets=['payload.bin'], path=os.path.dirname(f))
+            with zipfile.ZipFile(f, 'r') as archive:
+                archive.extract('payload.bin', path=os.path.dirname(f))
         except Exception as e:
             print(f"异常，报错信息: {e}")
 
