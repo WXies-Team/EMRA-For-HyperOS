@@ -39,3 +39,13 @@ APK_APP_NAME_PAD = 'app_name_pad.json'
 APK_CODE_NAME = 'app_code_name.json'
 # 定义字典类型
 JSON_V = 'app_json.txt'
+# 相关分区
+partitions = ["product"]
+# 设备种类识别
+is_fold = {"cetus", "zizhan", "babylon", "goku"}
+is_pad = {"nabu", "elish", "enuma", "dagu", "pipa", "liuqin", "yudi", "yunluo", "xun", "sheng", "dizi", "ruan"}
+is_flip = {"ruyi"}
+# 需要删除的文件夹
+files_to_delete = ["payload.bin", "product.img", "app_code_name.json"]
+folders_to_delete = ["output_apk", "update_apk", "update_name_apk", "product"]
+properties = {"ro.product.product.name": "设备名","ro.product.build.version.incremental": "软件版本号","ro.product.build.date": "编译时间","ro.product.build.id": "基线","ro.product.build.fingerprint": "指纹"}

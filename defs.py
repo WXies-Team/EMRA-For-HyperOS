@@ -1,9 +1,9 @@
-from config import *  # 导入config.py中定义的全局变量
-import shutil  # 导入shutil模块，用于复制、移动、删除文件和目录
-import subprocess  # 导入subprocess模块，用于执行系统命令
-import fnmatch  # 导入fnmatch模块，用于文件名匹配
-import json  # 导入json模块，用于读写JSON格式的数据
-from apkfile import ApkFile  # 导入apkfile.py中定义的ApkFile类
+from config import *  # 导入 onfig.py 中定义的全局变量
+import shutil  # 导入 shutil 模块，用于复制、移动、删除文件和目录
+import subprocess  # 导入 subprocess 模块，用于执行系统命令
+import fnmatch  # 导入 fnmatch 模块，用于文件名匹配
+import json  # 导入 json 模块，用于读写 JSON 格式的数据
+from apkfile import ApkFile  # 导入 apkfile 中定义的 ApkFile 类
 
 def move_json(backup, type_name):
     def move_files(type_n):
@@ -196,37 +196,40 @@ def extract_img():
     # 使用 subprocess 模块运行 shell 命令，执行 payload-dumper-go 的命令，从 payload.bin 文件中提取指定镜像文件
     # -c 参数指定最大并发数为 8，-o 指定提取后的文件输出到当前目录下
     # -p 参数指定提取指定镜像，"payload.bin" 为输入文件
-    subprocess.run(["./payload-dumper-go", "-c", "8", "-o","./", "-p", "product", "payload.bin"])
+    subprocess.run(["./payload-dumper-go", "-c", "8", "-o","./", "-p", partitions, "payload.bin"])
 
 
-def extract_files():
+def extract_files(build_prop_path):
     try:
         # 提取镜像文件中的文件
-        subprocess.run(["./extract.erofs", "-i", "product.img", "-x", "-T8"])
+        subprocess.run(["./extract.erofs", "-i", partitions, "-x", "-T8"])
         
-        # 获取设备代号
-        with open("./product/etc/build.prop", "r") as file:
-            for line in file:
-                if line.startswith("ro.product.product.name"):
-                    device_name = line.split("=")[1].strip()
-                    print(f"设备名: {device_name}")
+        # 搜索当前目录及其子目录中的 build.prop 文件
+        for root, dirs, files in os.walk("."):
+            if "build.prop" in files:
+                build_prop_path = os.path.join(root, "build.prop")
+                
+                with open(build_prop_path, "r") as file:
+                    for line in file:
+                        if line.startswith("ro.product.product.name"):
+                            device_name = line.split("=")[1].strip()
+                            print(f"设备名: {device_name}")
 
-                    is_fold = {"cetus", "zizhan", "babylon", "goku"}
-                    is_pad = {"nabu", "elish", "enuma", "dagu", "pipa", "liuqin", "yudi", "yunluo", "xun", "sheng", "dizi", "ruan"}
-                    is_flip = {"ruyi"}
-
-                    if device_name in is_fold:
-                        print("\n检测到包设备为 Fold，请输入-t 0/1(不备份/备份) f 参数切换字库")
-                    elif device_name in is_pad:
-                        print("\n检测到包设备为 Pad，请输入-t 0/1(不备份/备份) p 参数切换字库")
-                    elif device_name in is_flip:
-                        print("\n检测到包设备为 flip,请输入-t 0/1(不备份/备份) fp 参数切换字库")
-                    else:
-                        print("\n检测到包设备为 Phone，请输入-t 0/1(不备份/备份) ph 参数切换字库")
-                    break
+                            if device_name in is_fold:
+                                print("\n检测到包设备为 Fold，请输入-t 0/1(不备份/备份) f 参数切换字库")
+                            elif device_name in is_pad:
+                                print("\n检测到包设备为 Pad，请输入-t 0/1(不备份/备份) p 参数切换字库")
+                            elif device_name in is_flip:
+                                print("\n检测到包设备为 flip,请输入-t 0/1(不备份/备份) fp 参数切换字库")
+                            else:
+                                print("\n检测到包设备为 Phone，请输入-t 0/1(不备份/备份) ph 参数切换字库")
+                            break
+                break  # 找到后退出循环
+        else:
+            print("未找到 build.prop 文件")
+    
     except (FileNotFoundError, Exception) as e:
         print("发生错误:", e)
-
 
 def remove_some_apk(exclude_apk):
     # 遍历当前目录及其子目录
@@ -408,9 +411,6 @@ def update_apk_name():
 
 def delete_files_and_folders():
     """删除指定的文件和文件夹"""
-    files_to_delete = ["payload.bin", "product.img", "app_code_name.json"]
-    folders_to_delete = ["output_apk", "update_apk", "update_name_apk", "product"]
-
     for file in files_to_delete:
         if os.path.exists(file):
             try:
@@ -463,17 +463,9 @@ def git_push():
     subprocess.run(["git", "commit","-m",commit]) 
     subprocess.run(["git", "push"]) 
 
-def get_info():
-    properties = {
-        "ro.product.product.name": "设备名",
-        "ro.product.build.version.incremental": "软件版本号",
-        "ro.product.build.date": "编译时间",
-        "ro.product.build.id": "基线",
-        "ro.product.build.fingerprint": "指纹"
-    }
-
+def get_info(build_prop_path):
     try:
-        with open("./product/etc/build.prop", "r") as file:
+        with open(build_prop_path, "r") as file:
             lines = file.readlines()
             for key, label in properties.items():
                 for line in lines:
