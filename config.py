@@ -1,5 +1,6 @@
 import os  # 引入OS模块，用于操作文件和目录
 import glob  # 引入glob模块，用于搜索文件夹中的文件
+import platform
 
 # 获取当前脚本文件所在目录的绝对路径
 src_dir = os.path.abspath(__file__)
@@ -29,6 +30,10 @@ if not os.path.exists(output_dir):
 # 获取名为"output_apk"目录中所有以".apk"为后缀的文件列表
 apk_files = [f for f in os.listdir(output_dir) if f.endswith('.apk')]
 
+# 外部工具路径
+tools_path_mapping = {('Windows', 'AMD64'): './tools/Windows/AMD64/',('Linux', 'x86_64'): './tools/Linux/x86_64/',('Linux', 'arm64'): './tools/Linux/arm64/',('Darwin', 'x86_64'): './tools/Darwin/x86_64/',('Darwin', 'arm64'): './tools/Darwin/arm64/',}
+tools_path = tools_path_mapping.get((platform.system(), platform.machine()))
+
 # 定义了两个字符串常量，分别用于指定排除 APK 的文件路径和 APK 版本号和名称的 JSON 文件路径
 EXCLUDE_APK_PATH = 'exclude_apk.txt'
 APK_VERSION = 'app_version.json'
@@ -48,6 +53,5 @@ is_flip = {"ruyi"}
 # 需要删除的文件夹
 files_to_delete = ["payload.bin", "product.img", "app_code_name.json"]
 folders_to_delete = ["output_apk", "update_apk", "update_name_apk", "product"]
+# 获取信息
 properties = {"ro.product.product.name": "设备名","ro.product.build.version.incremental": "软件版本号","ro.product.build.date": "编译时间","ro.product.build.id": "基线","ro.product.build.fingerprint": "指纹"}
-# 外部工具路径
-tools_path_mapping = {('Windows', 'AMD64'): './Windows/x86_64/',('Linux', 'x86_64'): './Linux/x86_64/',('Linux', 'arm64'): './Linux/arm64/',('Darwin', 'x86_64'): './Darwin/x86_64/',('Darwin', 'arm64'): './Darwin/arm64/',}

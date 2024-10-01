@@ -203,10 +203,14 @@ def extract_img():
     # 使用 subprocess 模块运行 shell 命令，执行 payload-dumper-go 的命令，从 payload.bin 文件中提取指定镜像文件
     # -c 参数指定最大并发数为 8，-o 指定提取后的文件输出到当前目录下
     # -p 参数指定提取指定镜像，"payload.bin" 为输入文件
-    subprocess.run(["payload_dumper", "--partitions", partitions, "payload.bin", "--out", "./", "--workers", "8"])
+    if tools_path is None:
+        raise ValueError("不支持的平台")
+    for image in partitions:
+        print(image)
+        subprocess.run([tools_path + "payload-dumper-go", "-c", "8", "-o","./", "-p", image, "payload.bin"])
 
 
-def extract_files(build_prop_path, tools_path):
+def extract_files():
     try:
         # 提取镜像文件中的文件
         output = magic.from_file(partitions[0])
@@ -214,11 +218,6 @@ def extract_files(build_prop_path, tools_path):
         if "EROFS filesystem" in output:
             # 如果输出内容包含 EROFS filesystem 则使用 extract.erofs 解压
             # -i 参数指定输入的镜像文件为，-x 参数指定提取文件，-T 参数指定使用线程提取文件
-            system = platform.system()
-            machine = platform.machine()
-            tools_path = tools_path_mapping.get((system, machine))
-            if tools_path is None:
-                raise ValueError("不支持的平台")
             for image in partitions:
                 subprocess.run([tools_path + "extract.erofs", "-i", image, "-x", "-T8"])
         elif "data" in output:
@@ -493,7 +492,7 @@ def git_push():
     subprocess.run(["git", "commit","-m",commit]) 
     subprocess.run(["git", "push"]) 
 
-def get_info(build_prop_path):
+def get_info():
     try:
         with open(build_prop_path, "r") as file:
             lines = file.readlines()
