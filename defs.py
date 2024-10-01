@@ -206,7 +206,7 @@ def extract_img():
     subprocess.run(["payload_dumper", "--partitions", partitions, "payload.bin", "--out", "./", "--workers", "8"])
 
 
-def extract_files(build_prop_path):
+def extract_files(build_prop_path, tools_path):
     try:
         # 提取镜像文件中的文件
         output = magic.from_file(partitions[0])
@@ -214,8 +214,13 @@ def extract_files(build_prop_path):
         if "EROFS filesystem" in output:
             # 如果输出内容包含 EROFS filesystem 则使用 extract.erofs 解压
             # -i 参数指定输入的镜像文件为，-x 参数指定提取文件，-T 参数指定使用线程提取文件
+            system = platform.system()
+            machine = platform.machine()
+            tools_path = tools_path_mapping.get((system, machine))
+            if tools_path is None:
+                raise ValueError("不支持的平台")
             for image in partitions:
-                subprocess.run(["./extract.erofs", "-i", partitions, "-x", "-T8"])
+                subprocess.run([tools_path + "extract.erofs", "-i", image, "-x", "-T8"])
         elif "data" in output:
             # 如果输出内容包含 data 则使用 7z 解压
             # x 参数指定输入的镜像文件为，-o 提取指定提取文件到目录下

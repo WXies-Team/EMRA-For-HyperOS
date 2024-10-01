@@ -29,9 +29,7 @@
    pip install -r requirements.txt
    ```
 
-3. 下载并解压 [extract.erofs](https://github.com/sekaiacg/erofs-utils/releases)，并将文件移动到脚本目录下
-
-4. 运行脚本：
+3. 运行脚本：
 
    ```
    python main.py [-h] [-d URL] [-p] [-i] [-f] [-t] [-a] [-n] [-u] [-m] [-c] [-g] [-o]

@@ -49,3 +49,5 @@ is_flip = {"ruyi"}
 files_to_delete = ["payload.bin", "product.img", "app_code_name.json"]
 folders_to_delete = ["output_apk", "update_apk", "update_name_apk", "product"]
 properties = {"ro.product.product.name": "设备名","ro.product.build.version.incremental": "软件版本号","ro.product.build.date": "编译时间","ro.product.build.id": "基线","ro.product.build.fingerprint": "指纹"}
+# 外部工具路径
+tools_path_mapping = {('Windows', 'AMD64'): './Windows/x86_64/',('Linux', 'x86_64'): './Linux/x86_64/',('Linux', 'arm64'): './Linux/arm64/',('Darwin', 'x86_64'): './Darwin/x86_64/',('Darwin', 'arm64'): './Darwin/arm64/',}
