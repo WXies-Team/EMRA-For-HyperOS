@@ -4,6 +4,8 @@ import subprocess  # 导入 subprocess 模块，用于执行系统命令
 import fnmatch  # 导入 fnmatch 模块，用于文件名匹配
 import json  # 导入 json 模块，用于读写 JSON 格式的数据
 import magic # 导入 magic 模块，用于读取 img 格式
+import threading
+import requests
 from apkfile import ApkFile  # 导入 apkfile 中定义的 ApkFile 类
 
 def move_json(backup, type_name):
@@ -181,7 +183,8 @@ def init_json():
 
 def download_rom(url):
     """从给定的URL下载ROM"""
-    subprocess.run(["aria2c", "-x16", "-s16",url])
+    requests.get(url)
+    threading.Thread(target=download_file, args=(url,)).start()
 
 
 def extract_payload_bin(zip_files):
