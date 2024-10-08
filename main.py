@@ -12,9 +12,9 @@ def parse_arguments():
     parser.add_argument('-p', '--extract-payload', action='store_true',
                         help='Extract payload.bin from zip files')
     parser.add_argument('-i', '--img', action='store_true',
-                        help='Extract product.img from payload.bin')
+                        help='Extract img from payload.bin')
     parser.add_argument('-f', '--files', action='store_true',
-                        help='Extract files from EROFS product.img')
+                        help='Extract files from img')
     parser.add_argument('-t', '--devicetype', nargs=2, metavar=('Int', 'String'),
                         help='Change the dictionary type (two parameters in total), 0/1 => no backup/backup, ph/f/p/fp => phone/fold/tablet/flip')
     parser.add_argument('-a', '--apk', action='store_true',

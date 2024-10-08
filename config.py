@@ -1,6 +1,7 @@
 import os  # 引入OS模块，用于操作文件和目录
 import glob  # 引入glob模块，用于搜索文件夹中的文件
 import platform # 引入 platform 模块，用于读取设备信息
+import shutil  # 导入 shutil 模块，用于复制、移动、删除文件和目录
 
 # 获取当前脚本文件所在目录的绝对路径
 src_dir = os.path.abspath(__file__)
@@ -15,6 +16,7 @@ zip_files = glob.glob("*.zip")
 for root, dirs, files in os.walk("."):
             if "build.prop" in files:
                 build_prop_path = os.path.join(root, "build.prop")
+                shutil.copy(build_prop_path, "./build.prop")
 
 # 创建名为"output_apk"的目录（如果它不存在）
 output_dir = "output_apk"

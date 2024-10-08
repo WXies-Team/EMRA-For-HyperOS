@@ -179,7 +179,7 @@ def init_json():
 
 
 def download_rom(url):
-    """从给定的URL下载ROM，尽量达到最快下载速度"""
+    """下载 ROM"""
     subprocess.run(["aria2c", "-x16", "-s16",url])
 
 
