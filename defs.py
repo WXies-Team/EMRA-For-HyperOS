@@ -216,7 +216,7 @@ def extract_files():
                     elif device_name in is_pad:
                         print("\n检测到包设备为 Pad，请输入-t 0/1(不备份/备份) p 参数切换字库")
                     elif device_name in is_flip:
-                        print("\n检测到包设备为 flip，请输入-t 0/1(不备份/备份) fp 参数切换字库")
+                        print("\n检测到包设备为 Flip，请输入-t 0/1(不备份/备份) fp 参数切换字库")
                     else:
                         print("\n检测到包设备为 Phone，请输入-t 0/1(不备份/备份) ph 参数切换字库")
                     break  # 找到后退出循环
