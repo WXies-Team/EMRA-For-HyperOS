@@ -196,35 +196,45 @@ def extract_img():
     # 使用 subprocess 模块运行 shell 命令，执行 payload-dumper-go 的命令，从 payload.bin 文件中提取指定镜像文件
     # -c 参数指定最大并发数为 8，-o 指定提取后的文件输出到当前目录下
     # -p 参数指定提取指定镜像，"payload.bin" 为输入文件
-    subprocess.run([tools_path + "payload-dumper-go", "-c", "8", "-o","./", "-p", image, "payload.bin"])
+    partition_string = ",".join(partitions)
+    subprocess.run([f"{tools_path}payload-dumper-go", "-c", "8", "-o","./", "-p", partition_string, "payload.bin"])
 
 
 def extract_files():
-    try:
-        # 提取镜像文件中的文件
-        subprocess.run([tools_path + "extract.erofs", "-i", image + ".img", "-x", "-T8"])
+    for image in partitions:
+        try:
+            print(f"正在提取分区: {image}")
+            subprocess.run([f"{tools_path}extract.erofs", "-i", f"{image}.img", "-x", "-T8"])
+        except subprocess.CalledProcessError as e:
+            print(f"提取 {image} 时发生错误:", e)
         
-        # 搜索当前目录及其子目录中的 build.prop 文件 
-        with open(build_prop_path, "r") as file:
-            for line in file:
-                if line.startswith("ro.product.product.name"):
-                    device_name = line.split("=")[1].strip()
-                    print(f"设备名: {device_name}")
+        # 在指定文件夹中搜索 build.prop 文件
+        for root, dirs, files in os.walk("product"):
+            if "build.prop" in files:
+                build_prop_path = os.path.join(root, "build.prop")
+                
+                # 复制 build.prop 到根目录
+                shutil.copy(build_prop_path, os.path.join(os.getcwd(), "build.prop"))
+                print("已将 build.prop 复制到根目录")
+                
+                with open(build_prop_path, "r") as file:
+                    for line in file:
+                        if line.startswith("ro.product.product.name"):
+                            device_name = line.split("=")[1].split("_")[0].strip()
+                            print(f"设备名: {device_name}")
 
-                    if device_name in is_fold:
-                        print("\n检测到包设备为 Fold，请输入-t 0/1(不备份/备份) f 参数切换字库")
-                    elif device_name in is_pad:
-                        print("\n检测到包设备为 Pad，请输入-t 0/1(不备份/备份) p 参数切换字库")
-                    elif device_name in is_flip:
-                        print("\n检测到包设备为 Flip，请输入-t 0/1(不备份/备份) fp 参数切换字库")
-                    else:
-                        print("\n检测到包设备为 Phone，请输入-t 0/1(不备份/备份) ph 参数切换字库")
-                    break  # 找到后退出循环
-            else:
-                print("未找到 build.prop 文件")
-    except (FileNotFoundError, Exception) as e:
-        print("发生错误:", e)
-
+                            if device_name in is_fold:
+                                print("\n检测到包设备为 Fold，请输入-t 0/1(不备份/备份) f 参数切换字库")
+                            elif device_name in is_pad:
+                                print("\n检测到包设备为 Pad，请输入-t 0/1(不备份/备份) p 参数切换字库")
+                            elif device_name in is_flip:
+                                print("\n检测到包设备为 Flip，请输入-t 0/1(不备份/备份) fp 参数切换字库")
+                            else:
+                                print("\n检测到包设备为 Phone，请输入-t 0/1(不备份/备份) ph 参数切换字库")
+                            break  # 找到后退出循环
+                break  # 找到 build.prop 后退出外层循环
+        else:
+            print("未找到 build.prop 文件")
 
 
 def remove_some_apk(exclude_apk):
@@ -461,7 +471,7 @@ def git_push():
 
 def get_info():
     try:
-        with open(build_prop_path, "r") as file:
+        with open("./build.prop", "r") as file:
             lines = file.readlines()
             for key, label in properties.items():
                 for line in lines:
