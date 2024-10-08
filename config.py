@@ -1,5 +1,5 @@
-import os  # 引入 OS 模块，用于操作文件和目录
-import glob  # 引入 glob 模块，用于搜索文件夹中的文件
+import os  # 引入OS模块，用于操作文件和目录
+import glob  # 引入glob模块，用于搜索文件夹中的文件
 import platform # 引入 platform 模块，用于读取设备信息
 
 # 获取当前脚本文件所在目录的绝对路径
@@ -10,6 +10,11 @@ dst_dir = os.path.join(src_dir, "output_apk")
 
 # 在当前目录下搜索所有以".zip"为后缀的文件，并返回它们的文件路径
 zip_files = glob.glob("*.zip")
+
+# 在当前目录下搜索所有 "build.prop" 文件，并返回文件路径
+for root, dirs, files in os.walk("."):
+            if "build.prop" in files:
+                build_prop_path = os.path.join(root, "build.prop")
 
 # 创建名为"output_apk"的目录（如果它不存在）
 output_dir = "output_apk"

@@ -120,7 +120,7 @@ jobs:
       with:
         name: build.prop
         path: |
-          /build.prop
+          product/etc/build.prop
     
     - name: Upload update apk
       uses: actions/upload-artifact@v4
